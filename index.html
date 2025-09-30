@@ -99,6 +99,14 @@
       .card{ width:95vw; }
       .paper{ padding:14px }
     }
+    /* Extra mobile polish (safe areas & spacing) */
+    .wrap{ padding-top: calc(16px + env(safe-area-inset-top)); padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+    .card{ width:min(960px, 94vw); }
+    @media (max-width:480px){ .card{ width:95vw; } .paper{ padding:14px } }
+
+    /* Sender box */
+    .frombox label{display:block; margin:6px 0 6px; color:#3b2f1a; font-weight:700}
+    .frombox input{width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.1); font-size:15px; background:#fffdf7; color:#3b2f1a}
   </style>
 </head>
 <body>
@@ -115,14 +123,18 @@
       <div class="content">
         <section class="paper">
           <p class="greeting" id="greeting"></p>
+          <p class="small" id="fromLine"></p>
           <div id="wish" class="wish"><span id="wishText"></span></div>
           <div class="actions">
-            <button class="primary" id="btnRandom">Ngẫu nhiên</button>
-            <button id="btnPrev">◀</button>
-            <button id="btnNext">▶</button>
-            <button id="btnCopy">Sao chép</button>
+            <button class="primary" id="btnRandom">Ngẫu nhiên</button><button id="btnCopy">Sao chép</button>
             <button id="btnSong">Đổi nhạc</button>
+            <button id="btnDL">Tải ảnh</button>
             <a class="ghost" id="btnShare" href="#">Chia sẻ</a>
+          </div>
+          <div class="frombox">
+            <label for="fromInput">Tên người gửi</label>
+            <input id="fromInput" type="text" placeholder="Nhập tên người gửi..." />
+            <div class="actions" style="margin-top:8px"><button id="btnSaveFrom">Lưu tên</button></div>
           </div>
           <div class="editor">
             <label for="customInput">Tự viết lời chúc</label>
@@ -174,8 +186,10 @@ const isMobile = matchMedia('(max-width: 480px), (pointer: coarse)').matches;
 const BASE = 'https://honggiabao2911.github.io/thieptrungthu/';
 const params = new URLSearchParams(location.search);
 const toName = decodeURIComponent((params.get('to')||'').replace(/\+/g,' ')).trim();
-const fromName = decodeURIComponent((params.get('from')||'').replace(/\+/g,' ')).trim();
+let fromName = decodeURIComponent((params.get('from')||'').replace(/\+/g,' ')).trim();
+try{ if(!fromName){ const savedFrom = localStorage.getItem('fromNameUser'); if(savedFrom) fromName = savedFrom; } }catch{}
 $('#greeting').textContent = toName ? `Gửi ${toName},` : 'Gửi bạn,';
+$('#fromLine').textContent = fromName ? `Từ: ${fromName}` : '';
 function buildShareUrl(){ const u = new URL(BASE); if(fromName) u.searchParams.set('from', fromName); if(toName) u.searchParams.set('to', toName); return u.toString(); }
 
 // ========= Wishes =========
@@ -222,54 +236,25 @@ let idx = 0; function render(){ $('#wishText').textContent = wishes[idx]; }
 render();
 
 // ========= Emoji decoration for share/copy =========
-function decorate(text){
-  const pre = ['🌕','🏮','🎑','✨','🥮'];
-  const suf = ['✨','🌕','🏮','⭐️'];
-  const p = pre[Math.floor(Math.random()*pre.length)];
-  const s = suf[Math.floor(Math.random()*suf.length)];
-  return p+' '+text+' '+s;
-}
+function decorate(text){ const pre=['🌕','🏮','🎑','✨','🥮']; const suf=['✨','🌕','🏮','⭐️']; const p=pre[Math.floor(Math.random()*pre.length)]; const s=suf[Math.floor(Math.random()*suf.length)]; return p+' '+text+' '+s; }
 
 // ========= Buttons =========
-$('#btnPrev').onclick = ()=>{ idx=(idx-1+wishes.length)%wishes.length; render(); };
-$('#btnNext').onclick = ()=>{ idx=(idx+1)%wishes.length; render(); };
 $('#btnRandom').onclick = ()=>{ idx=Math.floor(Math.random()*wishes.length); render(); };
 
 // ========= Copy (one link only) =========
-$('#btnCopy').onclick = async ()=>{
-  const head = toName?`Gửi ${toName}, `:'';
-  const text = `${head}${decorate(wishes[idx])}
-Tạo lời chúc tại đây: ${BASE}`;
-  await navigator.clipboard.writeText(text); toast('Đã sao chép lời chúc!'); sparkle();
-};
+$('#btnCopy').onclick = async ()=>{ const head = toName?`Gửi ${toName}, `:''; const text = `${head}${decorate(wishes[idx])}
+Tạo lời chúc tại đây: ${BASE}`; await navigator.clipboard.writeText(text); toast('Đã sao chép lời chúc!'); sparkle(); };
+
+// ========= Download image =========
+$('#btnDL').onclick = async ()=>{ const {blob} = await createCardImage({ to: toName||'bạn', from: fromName||'Một người bạn', text: decorate(wishes[idx]) }); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove(); toast('Đã tạo & tải ảnh thiệp'); };
 
 // ========= Share as IMAGE (fallback to download) =========
-$('#btnShare').onclick = async (e)=>{
-  e.preventDefault();
-  const {blob} = await createCardImage({
-    to: toName || 'bạn',
-    from: fromName || 'Một người bạn',
-    text: decorate(wishes[idx])
-  });
-  const file = new File([blob], 'thiep-trung-thu.png', {type:'image/png'});
-  const caption = `Tạo lời chúc tại đây: ${BASE}`; // only one link
-  try{
-    if(navigator.canShare && navigator.canShare({ files:[file] })){
-      await navigator.share({ files:[file], title: 'Thiệp Trung Thu', text: caption });
-      toast('Đã mở chia sẻ bằng ảnh');
-    } else {
-      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove(); toast('Đã tạo ảnh thiệp (đã tải xuống)');
-      await navigator.clipboard.writeText(caption);
-    }
-  }catch(err){ toast('Không thể chia sẻ — đã tạo ảnh để tải'); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove(); }
+$('#btnShare').onclick = async (e)=>{ e.preventDefault(); const {blob} = await createCardImage({ to: toName||'bạn', from: fromName||'Một người bạn', text: decorate(wishes[idx]) }); const file = new File([blob], 'thiep-trung-thu.png', {type:'image/png'}); const caption = `Tạo lời chúc tại đây: ${BASE}`; try{ if(navigator.canShare && navigator.canShare({ files:[file] })){ await navigator.share({ files:[file], title:'Thiệp Trung Thu', text: caption }); toast('Đã mở chia sẻ bằng ảnh'); } else { const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove(); toast('Thiết bị không hỗ trợ chia sẻ ảnh trực tiếp — đã tải ảnh để bạn gửi qua Zalo/FB.'); } }catch(err){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove(); }
 };
 
-// ========= Custom editor =========
-const input=$('#customInput'); const btnUse=$('#btnUse'); const btnAdd=$('#btnAddWish'); const btnReset=$('#btnReset');
-function persist(){ try{ localStorage.setItem('wishesUser', JSON.stringify(wishes)); }catch{} }
-btnUse && (btnUse.onclick=()=>{ const v=(input.value||'').trim(); if(!v) return toast('Bạn chưa nhập nội dung'); wishes[idx]=v; persist(); render(); toast('Đã cập nhật lời chúc!'); });
-btnAdd && (btnAdd.onclick=()=>{ const v=(input.value||'').trim(); if(!v) return toast('Bạn chưa nhập nội dung'); wishes.push(v); idx=wishes.length-1; persist(); render(); toast('Đã thêm lời chúc!'); });
-btnReset && (btnReset.onclick=()=>{ wishes=[...defaultWishes]; idx=0; persist(); render(); toast('Đã khôi phục mặc định'); });
+// ========= Save sender name =========
+const fromInput = $('#fromInput'); if(fromInput){ fromInput.value = fromName || ''; }
+$('#btnSaveFrom').onclick = ()=>{ fromName = (fromInput.value||'').trim() || fromName; try{ localStorage.setItem('fromNameUser', fromName); }catch{} $('#fromLine').textContent = fromName?`Từ: ${fromName}`:''; toast('Đã lưu tên người gửi'); };
 
 // ========= Audio & playlist =========
 const audio = $('#bgm'); const toggleBtn = $('#audioToggle'); const iconPlay=$('#iconPlay'); const iconPause=$('#iconPause'); let isPlaying=false;
@@ -314,31 +299,7 @@ const sfxNear=$('#phao'); const sfxFar=$('#phao1'); function playSfxNear(){ clon
 // ========= Card image generator =========
 function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 function wrapText(ctx, text, x, y, maxWidth, lineHeight){ const words=text.split(' '); let line=''; const lines=[]; for(let n=0;n<words.length;n++){ const testLine = line + words[n] + ' '; const metrics = ctx.measureText(testLine); if(metrics.width > maxWidth && n>0){ lines.push(line.trim()); line = words[n] + ' '; } else { line = testLine; } } lines.push(line.trim()); for(let i=0;i<lines.length;i++){ ctx.fillText(lines[i], x, y + i*lineHeight); } return y + (lines.length-1)*lineHeight; }
-async function createCardImage({to, from, text}){
-  const W=1080, H=1350; const canvas=document.createElement('canvas'); canvas.width=W; canvas.height=H; const c=canvas.getContext('2d');
-  // Background gradient
-  const g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0b1b3a'); g.addColorStop(1,'#1b335f'); c.fillStyle=g; c.fillRect(0,0,W,H);
-  // Moon
-  c.save(); c.shadowColor='rgba(255,233,163,.4)'; c.shadowBlur=60; c.fillStyle='#ffe9a3'; c.beginPath(); c.arc(W*0.82,H*0.18,80,0,Math.PI*2); c.fill(); c.restore();
-  // Lanterns (soft glow)
-  function lantern(x,y,s,color){ c.save(); c.translate(x,y); c.scale(s,s); c.fillStyle=color; c.shadowColor=color; c.shadowBlur=40; roundRect(c,-30,-45,60,90,16); c.fill(); c.restore(); }
-  lantern(160,160,1.0,'#ffcf70'); lantern(260,280,0.8,'#ffd166'); lantern(W-220,240,0.9,'#ffc35a');
-  // Card container
-  const M=80; const cardW=W-M*2, cardH=H-380; const cardX=M, cardY=260;
-  c.save(); c.shadowColor='rgba(0,0,0,.25)'; c.shadowBlur=24; c.fillStyle='#fff7e6'; roundRect(c, cardX, cardY, cardW, cardH, 28); c.fill(); c.restore();
-  c.lineWidth=2; c.strokeStyle='#ffd166'; roundRect(c, cardX, cardY, cardW, cardH, 28); c.stroke();
-  // Text
-  c.fillStyle='#3b2f1a'; c.font='700 40px sans-serif'; c.fillText('Thiệp Trung Thu', cardX+28, cardY+60);
-  c.font='700 36px sans-serif'; c.fillText('Gửi ' + (to||'bạn') + ',', cardX+28, cardY+120);
-  c.font='400 34px sans-serif';
-  const maxW = cardW-56; let y = cardY+180; y = wrapText(c, text, cardX+28, y, maxW, 50) + 20;
-  // From line
-  c.font='500 30px sans-serif'; c.fillText('Từ: ' + (from||'Một người bạn'), cardX+28, y+50);
-  // Footer link
-  c.globalAlpha=0.8; c.font='400 26px sans-serif'; c.fillText('Tạo lời chúc tại đây: ' + BASE, cardX+28, cardY+cardH-32);
-  c.globalAlpha=1;
-  return new Promise((resolve)=> canvas.toBlob((blob)=> resolve({blob}), 'image/png'));
-}
+async function createCardImage({to, from, text}){ const W=1080, H=1350; const canvas=document.createElement('canvas'); canvas.width=W; canvas.height=H; const c=canvas.getContext('2d'); const g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0b1b3a'); g.addColorStop(1,'#1b335f'); c.fillStyle=g; c.fillRect(0,0,W,H); c.save(); c.shadowColor='rgba(255,233,163,.4)'; c.shadowBlur=60; c.fillStyle='#ffe9a3'; c.beginPath(); c.arc(W*0.82,H*0.18,80,0,Math.PI*2); c.fill(); c.restore(); function lantern(x,y,s,color){ c.save(); c.translate(x,y); c.scale(s,s); c.fillStyle=color; c.shadowColor=color; c.shadowBlur=40; roundRect(c,-30,-45,60,90,16); c.fill(); c.restore(); } lantern(160,160,1.0,'#ffcf70'); lantern(260,280,0.8,'#ffd166'); lantern(W-220,240,0.9,'#ffc35a'); const M=80; const cardW=W-M*2, cardH=H-380; const cardX=M, cardY=260; c.save(); c.shadowColor='rgba(0,0,0,.25)'; c.shadowBlur=24; c.fillStyle='#fff7e6'; roundRect(c, cardX, cardY, cardW, cardH, 28); c.fill(); c.restore(); c.lineWidth=2; c.strokeStyle='#ffd166'; roundRect(c, cardX, cardY, cardW, cardH, 28); c.stroke(); c.fillStyle='#3b2f1a'; c.font='700 40px sans-serif'; c.fillText('Thiệp Trung Thu', cardX+28, cardY+60); c.font='700 36px sans-serif'; c.fillText('Gửi ' + (to||'bạn') + ',', cardX+28, cardY+120); c.font='400 34px sans-serif'; const maxW = cardW-56; let y = cardY+180; y = wrapText(c, text, cardX+28, y, maxW, 50) + 20; c.font='500 30px sans-serif'; c.fillText('Từ: ' + (from||'Một người bạn'), cardX+28, y+50); c.globalAlpha=0.8; c.font='400 26px sans-serif'; c.fillText('Tạo lời chúc tại đây: ' + BASE, cardX+28, cardY+cardH-32); c.globalAlpha=1; return new Promise((resolve)=> canvas.toBlob((blob)=> resolve({blob}), 'image/png')); }
 
 // ===== Toast =====
 function toast(msg){ const t=document.createElement('div'); t.textContent=msg; Object.assign(t.style,{ position:'fixed', left:'50%', bottom:'30px', transform:'translateX(-50%)', background:'rgba(0,0,0,.7)', color:'#fff', padding:'10px 14px', borderRadius:'999px', zIndex:99, fontWeight:700 }); document.body.appendChild(t); setTimeout(()=>{ t.remove(); }, 1500); }
