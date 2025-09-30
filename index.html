@@ -221,35 +221,55 @@ let wishes; try{ const saved = JSON.parse(localStorage.getItem('wishesUser')||'n
 let idx = 0; function render(){ $('#wishText').textContent = wishes[idx]; }
 render();
 
+// ========= Emoji decoration for share/copy =========
+function decorate(text){
+  const pre = ['🌕','🏮','🎑','✨','🥮'];
+  const suf = ['✨','🌕','🏮','⭐️'];
+  const p = pre[Math.floor(Math.random()*pre.length)];
+  const s = suf[Math.floor(Math.random()*suf.length)];
+  return p+' '+text+' '+s;
+}
+
 // ========= Buttons =========
 $('#btnPrev').onclick = ()=>{ idx=(idx-1+wishes.length)%wishes.length; render(); };
 $('#btnNext').onclick = ()=>{ idx=(idx+1)%wishes.length; render(); };
 $('#btnRandom').onclick = ()=>{ idx=Math.floor(Math.random()*wishes.length); render(); };
 
-// ========= Copy / Share with real link =========
+// ========= Copy (one link only) =========
 $('#btnCopy').onclick = async ()=>{
   const head = toName?`Gửi ${toName}, `:'';
-  const text = `${head}${wishes[idx]}
+  const text = `${head}${decorate(wishes[idx])}
 Tạo lời chúc tại đây: ${BASE}`;
   await navigator.clipboard.writeText(text); toast('Đã sao chép lời chúc!'); sparkle();
 };
+
+// ========= Share as IMAGE (fallback to download) =========
 $('#btnShare').onclick = async (e)=>{
   e.preventDefault();
-  const sender = fromName || 'Một người bạn'; const receiver = toName || 'bạn';
-  const viewUrl = buildShareUrl();
-  const text = `Lời chúc Trung Thu từ ${sender} gửi ${receiver}:
-“${wishes[idx]}”
-Xem thiệp: ${viewUrl}
-Tạo lời chúc tại đây: ${BASE}`;
-  try{ if(navigator.share){ await navigator.share({ title:'Thiệp Trung Thu', text, url:viewUrl }); toast('Đã mở chia sẻ'); } else { await navigator.clipboard.writeText(text); toast('Đã sao chép nội dung chia sẻ!'); } }catch{}
+  const {blob} = await createCardImage({
+    to: toName || 'bạn',
+    from: fromName || 'Một người bạn',
+    text: decorate(wishes[idx])
+  });
+  const file = new File([blob], 'thiep-trung-thu.png', {type:'image/png'});
+  const caption = `Tạo lời chúc tại đây: ${BASE}`; // only one link
+  try{
+    if(navigator.canShare && navigator.canShare({ files:[file] })){
+      await navigator.share({ files:[file], title: 'Thiệp Trung Thu', text: caption });
+      toast('Đã mở chia sẻ bằng ảnh');
+    } else {
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove(); toast('Đã tạo ảnh thiệp (đã tải xuống)');
+      await navigator.clipboard.writeText(caption);
+    }
+  }catch(err){ toast('Không thể chia sẻ — đã tạo ảnh để tải'); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove(); }
 };
 
 // ========= Custom editor =========
 const input=$('#customInput'); const btnUse=$('#btnUse'); const btnAdd=$('#btnAddWish'); const btnReset=$('#btnReset');
 function persist(){ try{ localStorage.setItem('wishesUser', JSON.stringify(wishes)); }catch{} }
-btnUse.onclick=()=>{ const v=(input.value||'').trim(); if(!v) return toast('Bạn chưa nhập nội dung'); wishes[idx]=v; persist(); render(); toast('Đã cập nhật lời chúc!'); };
-btnAdd.onclick=()=>{ const v=(input.value||'').trim(); if(!v) return toast('Bạn chưa nhập nội dung'); wishes.push(v); idx=wishes.length-1; persist(); render(); toast('Đã thêm lời chúc!'); };
-btnReset.onclick=()=>{ wishes=[...defaultWishes]; idx=0; persist(); render(); toast('Đã khôi phục mặc định'); };
+btnUse && (btnUse.onclick=()=>{ const v=(input.value||'').trim(); if(!v) return toast('Bạn chưa nhập nội dung'); wishes[idx]=v; persist(); render(); toast('Đã cập nhật lời chúc!'); });
+btnAdd && (btnAdd.onclick=()=>{ const v=(input.value||'').trim(); if(!v) return toast('Bạn chưa nhập nội dung'); wishes.push(v); idx=wishes.length-1; persist(); render(); toast('Đã thêm lời chúc!'); });
+btnReset && (btnReset.onclick=()=>{ wishes=[...defaultWishes]; idx=0; persist(); render(); toast('Đã khôi phục mặc định'); });
 
 // ========= Audio & playlist =========
 const audio = $('#bgm'); const toggleBtn = $('#audioToggle'); const iconPlay=$('#iconPlay'); const iconPause=$('#iconPause'); let isPlaying=false;
@@ -265,33 +285,62 @@ audio.addEventListener('ended', ()=> setTrack(trackIndex+1)); updateTrack();
 $('#startBtn').onclick = async ()=>{ await playAudio(); $('#overlay').style.display='none'; sparkle(); };
 $('#skipBtn').onclick = ()=>{ $('#overlay').style.display='none'; };
 
-// ========= Canvases =========
+// ========= Canvases (effects) =========
 const fx = $('#fx'); const ctx = fx.getContext('2d'); const fxBack = $('#fxBack'); const ctxB = fxBack.getContext('2d');
 function resize(){ fx.width = innerWidth*devicePixelRatio; fx.height = innerHeight*devicePixelRatio; fxBack.width = innerWidth*devicePixelRatio; fxBack.height = innerHeight*devicePixelRatio; }
 addEventListener('resize', resize); resize();
 
 // Foreground particles
 const particles=[]; function spawn(x,y,color,count=140){ count=Math.floor(count*(isMobile?0.6:1)); for(let i=0;i<count;i++){ const a=Math.random()*Math.PI*2; const s=Math.random()*4+1.6; particles.push({x:x*devicePixelRatio,y:y*devicePixelRatio,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:120+Math.random()*160,color}); } }
-function sparkle(){ spawn(innerWidth*0.5, innerHeight*0.35, `hsl(${Math.random()*360},100%,70%)`, isMobile?50:80); }
+function sparkle(){ const col='hsl('+ (Math.random()*360) +',100%,70%)'; spawn(innerWidth*0.5, innerHeight*0.35, col, isMobile?50:80); }
 function loop(){ ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='rgba(0,0,0,0.12)'; ctx.fillRect(0,0,fx.width,fx.height); ctx.globalCompositeOperation='lighter'; for(const p of particles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.01; p.life-=1; ctx.beginPath(); ctx.arc(p.x,p.y, 2*devicePixelRatio, 0, Math.PI*2); ctx.fillStyle=p.color; ctx.fill(); } for(let i=particles.length-1;i>=0;i--){ if(particles[i].life<=0) particles.splice(i,1); } requestAnimationFrame(loop); } loop();
-$('#btnFire').onclick = ()=>{ for(let i=0;i<3;i++) setTimeout(()=>{ spawn(innerWidth*Math.random(), innerHeight*(.3+.4*Math.random()), `hsl(${Math.random()*360},100%,70%)`, 150); playSfxNear(); }, i*180); };
+$('#btnFire').onclick = ()=>{ for(let i=0;i<3;i++) setTimeout(()=>{ const col='hsl('+ (Math.random()*360) +',100%,70%)'; spawn(innerWidth*Math.random(), innerHeight*(.3+.4*Math.random()), col, 150); playSfxNear(); }, i*180); };
 
 // Background shapes
 const farParticles=[]; function addFarPoint(cx,cy,px,py,color){ const j=0.6,s=devicePixelRatio; const vx=px*0.02+(Math.random()-0.5)*j; const vy=py*0.02+(Math.random()-0.5)*j; farParticles.push({x:(cx+px)*s,y:(cy+py)*s,vx,vy,life:240+Math.random()*140,color}); }
-function spawnShapeBack(shape){ const cx=innerWidth*(0.2+0.6*Math.random()); const cy=innerHeight*(0.18+0.22*Math.random()); const hue=Math.floor(Math.random()*360); const color=`hsl(${hue},100%,70%)`; const r=Math.min(innerWidth,innerHeight)*0.08; const N=140; if(shape==='ring'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy,Math.cos(t)*r,Math.sin(t)*r,color); } } else if(shape==='star'){ const spikes=5,r1=r,r2=r*0.45,pts=spikes*2; for(let i=0;i<pts;i++){ const t=i/pts*2*Math.PI; const rr=(i%2===0)?r1:r2; addFarPoint(cx,cy,Math.cos(t)*rr,Math.sin(t)*rr,color); } } else if(shape==='heart'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; const x=16*Math.sin(t)**3; const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); const s=r/18; addFarPoint(cx,cy,x*s,-y*s,color); } } else if(shape==='smiley'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy,Math.cos(t)*r,Math.sin(t)*r,color); } const er=r*0.12, ex=r*0.35, ey=-r*0.2; for(let i=0;i<40;i++){ const t=i/40*2*Math.PI; addFarPoint(cx+ex,cy+ey,Math.cos(t)*er,Math.sin(t)*er,color); addFarPoint(cx-ex,cy+ey,Math.cos(t)*er,Math.sin(t)*er,color); } for(let i=0;i<70;i++){ const t=(-Math.PI*0.1)+(i/70)*Math.PI*1.2; const rr=r*0.55; addFarPoint(cx,cy+r*0.15,Math.cos(t)*rr,Math.sin(t)*rr,color); } } else if(shape==='spiral'){ const turns=3.2,steps=240,sr=r*0.1,er=r; for(let i=0;i<steps;i++){ const t=i/steps*turns*2*Math.PI; const rr=sr+(er-sr)*(i/steps); addFarPoint(cx,cy,Math.cos(t)*rr,Math.sin(t)*rr,color); } } }
+function spawnShapeBack(shape){ const cx=innerWidth*(0.2+0.6*Math.random()); const cy=innerHeight*(0.18+0.22*Math.random()); const hue=Math.floor(Math.random()*360); const color='hsl('+hue+',100%,70%)'; const r=Math.min(innerWidth,innerHeight)*0.08; const N=140; if(shape==='ring'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy,Math.cos(t)*r,Math.sin(t)*r,color); } } else if(shape==='star'){ const spikes=5,r1=r,r2=r*0.45,pts=spikes*2; for(let i=0;i<pts;i++){ const t=i/pts*2*Math.PI; const rr=(i%2===0)?r1:r2; addFarPoint(cx,cy,Math.cos(t)*rr,Math.sin(t)*rr,color); } } else if(shape==='heart'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; const x=16*Math.sin(t)**3; const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); const s=r/18; addFarPoint(cx,cy,x*s,-y*s,color); } } else if(shape==='smiley'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy,Math.cos(t)*r,Math.sin(t)*r,color); } const er=r*0.12, ex=r*0.35, ey=-r*0.2; for(let i=0;i<40;i++){ const t=i/40*2*Math.PI; addFarPoint(cx+ex,cy+ey,Math.cos(t)*er,Math.sin(t)*er,color); addFarPoint(cx-ex,cy+ey,Math.cos(t)*er,Math.sin(t)*er,color); } for(let i=0;i<70;i++){ const t=(-Math.PI*0.1)+(i/70)*Math.PI*1.2; const rr=r*0.55; addFarPoint(cx,cy+r*0.15,Math.cos(t)*rr,Math.sin(t)*rr,color); } } else if(shape==='spiral'){ const turns=3.2,steps=240,sr=r*0.1,er=r; for(let i=0;i<steps;i++){ const t=i/steps*turns*2*Math.PI; const rr=sr+(er-sr)*(i/steps); addFarPoint(cx,cy,Math.cos(t)*rr,Math.sin(t)*rr,color); } } }
 function loopBack(){ ctxB.globalCompositeOperation='destination-out'; ctxB.fillStyle='rgba(0,0,0,0.10)'; ctxB.fillRect(0,0,fxBack.width,fxBack.height); ctxB.globalCompositeOperation='lighter'; for(const p of farParticles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.004; p.life-=1; ctxB.beginPath(); ctxB.arc(p.x,p.y, 1.8*devicePixelRatio, 0, Math.PI*2); ctxB.fillStyle=p.color; ctxB.fill(); } for(let i=farParticles.length-1;i>=0;i--){ if(farParticles[i].life<=0) farParticles.splice(i,1); } requestAnimationFrame(loopBack); } loopBack();
 const shapes=['ring','star','heart','smiley','spiral']; $('#btnRemote').onclick = ()=>{ const bursts=2+Math.floor(Math.random()*2); for(let i=0;i<bursts;i++) setTimeout(()=>{ spawnShapeBack(shapes[Math.floor(Math.random()*shapes.length)]); playSfxFar(); }, i*260); };
 
 // Stars & lanterns
-const sky = $('.stars'); function makeStar(n=120){ for(let i=0;i<n;i++){ const s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.top=(Math.random()*100)+'%'; const d=Math.random()*3+1; s.style.opacity=0.6+Math.random()*0.4; s.style.animationDuration=(2.5+Math.random()*2)+'s'; s.style.transform=`scale(${d/2})`; sky.appendChild(s); } }
-function makeLanterns(n=10){ for(let i=0;i<n;i++){ const l=document.createElement('div'); l.className='lantern'; l.style.left=(Math.random()*100)+'%'; l.style.animationDuration=(12+Math.random()*8)+'s'; l.style.opacity=0.7+Math.random()*0.3; l.style.filter=`hue-rotate(${Math.floor(Math.random()*60)-30}deg)`; document.body.appendChild(l); } }
+const sky = $('.stars'); function makeStar(n=120){ for(let i=0;i<n;i++){ const s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.top=(Math.random()*100)+'%'; const d=Math.random()*3+1; s.style.opacity=0.6+Math.random()*0.4; s.style.animationDuration=(2.5+Math.random()*2)+'s'; s.style.transform='scale('+(d/2)+')'; sky.appendChild(s); } }
+function makeLanterns(n=10){ for(let i=0;i<n;i++){ const l=document.createElement('div'); l.className='lantern'; l.style.left=(Math.random()*100)+'%'; l.style.animationDuration=(12+Math.random()*8)+'s'; l.style.opacity=0.7+Math.random()*0.3; l.style.filter='hue-rotate('+(Math.floor(Math.random()*60)-30)+'deg)'; document.body.appendChild(l); } }
 makeStar(isMobile?70:120); makeLanterns(isMobile?8:12); $('#btnLantern').onclick = ()=> makeLanterns(5);
 
 // SFX
 function clonePlay(el, vol=0.7, ttl=6000){ try{ const c=el.cloneNode(); c.volume=vol; c.play(); setTimeout(()=>c.remove(), ttl); }catch{} }
 const sfxNear=$('#phao'); const sfxFar=$('#phao1'); function playSfxNear(){ clonePlay(sfxNear,0.7,5000); } function playSfxFar(){ clonePlay(sfxFar,0.55,6000); }
 
-// Toast
+// ========= Card image generator =========
+function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function wrapText(ctx, text, x, y, maxWidth, lineHeight){ const words=text.split(' '); let line=''; const lines=[]; for(let n=0;n<words.length;n++){ const testLine = line + words[n] + ' '; const metrics = ctx.measureText(testLine); if(metrics.width > maxWidth && n>0){ lines.push(line.trim()); line = words[n] + ' '; } else { line = testLine; } } lines.push(line.trim()); for(let i=0;i<lines.length;i++){ ctx.fillText(lines[i], x, y + i*lineHeight); } return y + (lines.length-1)*lineHeight; }
+async function createCardImage({to, from, text}){
+  const W=1080, H=1350; const canvas=document.createElement('canvas'); canvas.width=W; canvas.height=H; const c=canvas.getContext('2d');
+  // Background gradient
+  const g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0b1b3a'); g.addColorStop(1,'#1b335f'); c.fillStyle=g; c.fillRect(0,0,W,H);
+  // Moon
+  c.save(); c.shadowColor='rgba(255,233,163,.4)'; c.shadowBlur=60; c.fillStyle='#ffe9a3'; c.beginPath(); c.arc(W*0.82,H*0.18,80,0,Math.PI*2); c.fill(); c.restore();
+  // Lanterns (soft glow)
+  function lantern(x,y,s,color){ c.save(); c.translate(x,y); c.scale(s,s); c.fillStyle=color; c.shadowColor=color; c.shadowBlur=40; roundRect(c,-30,-45,60,90,16); c.fill(); c.restore(); }
+  lantern(160,160,1.0,'#ffcf70'); lantern(260,280,0.8,'#ffd166'); lantern(W-220,240,0.9,'#ffc35a');
+  // Card container
+  const M=80; const cardW=W-M*2, cardH=H-380; const cardX=M, cardY=260;
+  c.save(); c.shadowColor='rgba(0,0,0,.25)'; c.shadowBlur=24; c.fillStyle='#fff7e6'; roundRect(c, cardX, cardY, cardW, cardH, 28); c.fill(); c.restore();
+  c.lineWidth=2; c.strokeStyle='#ffd166'; roundRect(c, cardX, cardY, cardW, cardH, 28); c.stroke();
+  // Text
+  c.fillStyle='#3b2f1a'; c.font='700 40px sans-serif'; c.fillText('Thiệp Trung Thu', cardX+28, cardY+60);
+  c.font='700 36px sans-serif'; c.fillText('Gửi ' + (to||'bạn') + ',', cardX+28, cardY+120);
+  c.font='400 34px sans-serif';
+  const maxW = cardW-56; let y = cardY+180; y = wrapText(c, text, cardX+28, y, maxW, 50) + 20;
+  // From line
+  c.font='500 30px sans-serif'; c.fillText('Từ: ' + (from||'Một người bạn'), cardX+28, y+50);
+  // Footer link
+  c.globalAlpha=0.8; c.font='400 26px sans-serif'; c.fillText('Tạo lời chúc tại đây: ' + BASE, cardX+28, cardY+cardH-32);
+  c.globalAlpha=1;
+  return new Promise((resolve)=> canvas.toBlob((blob)=> resolve({blob}), 'image/png'));
+}
+
+// ===== Toast =====
 function toast(msg){ const t=document.createElement('div'); t.textContent=msg; Object.assign(t.style,{ position:'fixed', left:'50%', bottom:'30px', transform:'translateX(-50%)', background:'rgba(0,0,0,.7)', color:'#fff', padding:'10px 14px', borderRadius:'999px', zIndex:99, fontWeight:700 }); document.body.appendChild(t); setTimeout(()=>{ t.remove(); }, 1500); }
 </script>
 </body>
