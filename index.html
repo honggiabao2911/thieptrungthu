@@ -3,110 +3,79 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Tết Trung Thu ✨🌕</title>
-  <meta name="description" content="Thiệp web Trung Thu có nhạc, hiệu ứng pháo hoa và lời chúc ý nghĩa. Tùy biến tên người nhận & chia sẻ dễ dàng." />
-  <meta property="og:title" content="Thiệp Trung Thu của bạn" />
-  <meta property="og:description" content="Mở thiệp để nghe nhạc và nhận lời chúc Trung Thu thật ý nghĩa!" />
-  <meta property="og:type" content="website" />
+  <title>Thiệp Trung Thu ✨🌕 – Bản hoàn thiện</title>
+  <meta name="description" content="Thiệp Trung Thu co giãn theo nội dung, chia sẻ bằng ảnh trực tiếp, đèn lồng rõ trên điện thoại, có nhạc & pháo hoa." />
   <meta name="theme-color" content="#0b1b3a" />
+
+  <!-- Preload audio -->
   <link rel="preload" as="audio" href="trungthu.mp3" />
-  <link rel="preload" as="audio" href="phao.mp3" />
   <link rel="preload" as="audio" href="trungthu1.mp3" />
   <link rel="preload" as="audio" href="trungthu2.mp3" />
   <link rel="preload" as="audio" href="trungthu3.mp3" />
   <link rel="preload" as="audio" href="trungthu4.mp3" />
+  <link rel="preload" as="audio" href="phao.mp3" />
   <link rel="preload" as="audio" href="phao1.mp3" />
+
   <style>
-    :root{
-      --bg1:#0b1b3a;
-      --bg2:#1b335f;
-      --moon:#ffe9a3;
-      --lantern:#ffb84d;
-      --accent:#ffd166;
-      --paper:#fff7e6;
-      --glass: rgba(255,255,255,.08);
-    }
+    :root{ --bg1:#0b1b3a; --bg2:#1b335f; --moon:#ffe9a3; --lantern:#ffb84d; --accent:#ffd166; --paper:#fff7e6; --ink:#3b2f1a; --glass: rgba(255,255,255,.08) }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color:#f5f7ff; background: radial-gradient(1200px 800px at 70% -10%, #254273 0%, transparent 60%), linear-gradient(180deg, var(--bg2), var(--bg1)); overflow:hidden}
-
+    body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:#f5f7ff;
+      background: radial-gradient(1200px 800px at 70% -10%, #254273 0%, transparent 60%), linear-gradient(180deg,var(--bg2),var(--bg1));
+      overflow-y:auto}
     .stars{position:fixed; inset:0; pointer-events:none}
-    .stars i{position:absolute; width:2px; height:2px; background:#cfe3ff; opacity:.9; border-radius:50%; animation: twinkle 3.5s infinite ease-in-out}
-    @keyframes twinkle{50%{transform:scale(1.6); opacity:.4}}
-
-    .moon{position:absolute; top:4vh; right:6vw; width:120px; height:120px; background:radial-gradient(circle at 30% 30%, #fff7d1 20%, var(--moon) 60%, #f7d77a 100%); border-radius:50%; box-shadow:0 0 30px 10px rgba(255,233,163,.3), 0 0 100px rgba(255,233,163,.2)}
-
-    .lantern{position:absolute; bottom:-140px; width:42px; height:60px; background:linear-gradient(180deg, #ffcf70, var(--lantern)); border-radius:10px; box-shadow:0 -8px 18px rgba(255,209,102,.35) inset, 0 8px 18px rgba(0,0,0,.25) inset, 0 0 24px rgba(255,184,77,.5); transform:translateY(0) scale(1); animation: floatUp 16s linear infinite}
-    .lantern::before{content:""; position:absolute; left:50%; top:-16px; width:22px; height:16px; transform:translateX(-50%); background:linear-gradient(180deg, #fbe7b8, #ffd166); border-radius:4px 4px 0 0}
-    .lantern::after{content:""; position:absolute; left:50%; bottom:-14px; width:18px; height:14px; transform:translateX(-50%); background:linear-gradient(180deg, #ffebc6, #ffb84d); border-radius:0 0 4px 4px; box-shadow:0 4px 12px rgba(255,184,77,.7)}
+    .stars i{position:absolute; width:2.5px; height:2.5px; background:#cfe3ff; opacity:.9; border-radius:50%; animation: twinkle 3.8s infinite ease-in-out}
+    @keyframes twinkle{50%{transform:scale(1.6); opacity:.45}}
+    .moon{position:absolute; top:4vh; right:6vw; width:128px; height:128px; background:radial-gradient(circle at 30% 30%, #fff7d1 20%, var(--moon) 60%, #f7d77a 100%);
+      border-radius:50%; box-shadow:0 0 30px 10px rgba(255,233,163,.35), 0 0 120px rgba(255,233,163,.25)}
+    .lantern{position:absolute; bottom:-160px; width:54px; height:78px; background:linear-gradient(180deg, #ffcf70, var(--lantern)); border-radius:14px;
+      box-shadow:0 -10px 20px rgba(255,209,102,.35) inset, 0 10px 20px rgba(0,0,0,.28) inset, 0 0 24px rgba(255,184,77,.7);
+      animation: floatUp 16s linear infinite; filter: drop-shadow(0 0 16px rgba(255, 200, 120, .95)); mix-blend-mode: screen}
+    .lantern::before{content:""; position:absolute; left:50%; top:-18px; width:26px; height:18px; transform:translateX(-50%);
+      background:linear-gradient(180deg, #fbe7b8, #ffd166); border-radius:8px 8px 0 0}
+    .lantern::after{content:""; position:absolute; left:50%; bottom:-14px; width:24px; height:18px; transform:translateX(-50%);
+      background:linear-gradient(180deg, #ffebc6, #ffb84d); border-radius:0 0 8px 8px; box-shadow:0 6px 14px rgba(255,184,77,.9)}
     @keyframes floatUp{0%{transform:translateY(0)}100%{transform:translateY(-120vh)}}
-
-    .wrap{position:relative; z-index:2; height:100dvh; display:grid; place-items:center; padding:24px}
-    .card{width:min(920px,92vw); background:linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.06)); border:1px solid rgba(255,255,255,.18); border-radius:24px; box-shadow:0 20px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.2); backdrop-filter:blur(10px); overflow:hidden}
-    .card-header{display:flex; align-items:center; gap:14px; padding:18px 22px; background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02)); border-bottom:1px solid rgba(255,255,255,.15)}
+    .wrap{position:relative; z-index:2; min-height:100svh; display:grid; place-items:center; padding:16px calc(16px + env(safe-area-inset-right))}
+    .card{width:min(960px,94vw); background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)); border:1px solid rgba(255,255,255,.18);
+      border-radius:24px; box-shadow:0 20px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.2); backdrop-filter:blur(10px); overflow:hidden; margin:10px auto}
+    .card-header{display:flex; align-items:center; gap:14px; padding:18px 22px; background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.03)); border-bottom:1px solid rgba(255,255,255,.15)}
     .title{font-size:clamp(22px,2.6vw,32px); margin:0; font-weight:800}
     .subtitle{opacity:.85; font-size:clamp(13px,1.4vw,15px)}
-    .paper{background:var(--paper); color:#3b2f1a; padding:22px; border-radius:14px; box-shadow:inset 0 2px 0 #fff, 0 10px 24px rgba(0,0,0,.15)}
-
-    .content{display:grid; grid-template-columns:1.1fr .9fr; gap:18px; padding:22px}
-    @media(max-width:860px){.content{grid-template-columns:1fr; gap:14px}}
-
-    .wish{min-height:220px; line-height:1.6; font-size:clamp(17px,2vw,20px)}
-
+    .content{display:grid; grid-template-columns:1.04fr .96fr; gap:18px; padding:22px}
+    @media(max-width:860px){.content{grid-template-columns:1fr; gap:14px; padding:14px}}
+    .paper{background:var(--paper); color:var(--ink); padding:20px; border-radius:16px; box-shadow:inset 0 2px 0 #fff, 0 10px 24px rgba(0,0,0,.15)}
+    .wish{line-height:1.6; font-size:clamp(17px,2vw,20px)}
     .actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
-    button,.ghost{border:0; padding:10px 14px; border-radius:999px; font-weight:700; cursor:pointer; background:#1e293b; color:#e9f1ff; border:1px solid rgba(255,255,255,.2); transition:.2s}
+    button,.ghost{border:0; padding:10px 14px; border-radius:999px; font-weight:700; cursor:pointer; background:#1e293b; color:#e9f1ff;
+      border:1px solid rgba(255,255,255,.25); transition:.2s; min-height:44px; touch-action:manipulation}
     button:hover,.ghost:hover{transform:translateY(-1px); box-shadow:0 8px 20px rgba(0,0,0,.25)}
-    button.primary{background:linear-gradient(180deg,#ffd166,#ffb84d); color:#3b2f1a; border-color:#f59f0b}
+    button.primary{background:linear-gradient(180deg,#ffd166,#ffb84d); color:var(--ink); border-color:#f59f0b}
     .ghost{background:#334155; color:#e9f1ff; border-color:rgba(255,255,255,.55)}
-    #btnShare.ghost{background:linear-gradient(180deg,#ffd166,#ffb84d); color:#3b2f1a; border-color:#f59f0b; box-shadow:0 8px 20px rgba(255,184,77,.4)}
-
+    #btnShare.ghost{background:linear-gradient(180deg,#ffd166,#ffb84d); color:var(--ink); border-color:#f59f0b; box-shadow:0 8px 20px rgba(255,184,77,.4)}
     .greeting{font-weight:800; font-size:clamp(18px,2.2vw,22px); margin:0 0 6px}
     .small{font-size:13px; opacity:.8}
-
     .editor{margin-top:12px}
-    .editor label{display:block; margin:6px 0; font-weight:700; color:#3b2f1a}
-    .editor textarea{width:100%; min-height:80px; padding:10px; border-radius:12px; border:1px solid rgba(0,0,0,.1); font-family:inherit; font-size:15px; color:#3b2f1a; background:#fffdf7}
-
-    .audio-toggle{position:fixed; right:18px; bottom:18px; z-index:10; width:54px; height:54px; display:grid; place-items:center; border-radius:50%; background:var(--glass); border:1px solid rgba(255,255,255,.3); backdrop-filter:blur(8px); cursor:pointer}
+    .editor label{display:block; margin:6px 0; font-weight:700; color:var(--ink)}
+    .editor textarea{width:100%; min-height:80px; padding:10px; border-radius:12px; border:1px solid rgba(0,0,0,.1); font-family:inherit; font-size:15px; color:var(--ink); background:#fffdf7}
+    .frombox label{display:block; margin:6px 0 6px; color:var(--ink); font-weight:700}
+    .frombox input{width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.1); font-size:15px; background:#fffdf7; color:var(--ink)}
+    .audio-toggle{position:fixed; right:18px; bottom:calc(max(18px, env(safe-area-inset-bottom))); z-index:10; width:54px; height:54px; display:grid; place-items:center;
+      border-radius:50%; background:var(--glass); border:1px solid rgba(255,255,255,.3); backdrop-filter:blur(8px); cursor:pointer}
     .audio-toggle svg{width:26px; height:26px; fill:#fff}
     .audio-hint{position:fixed; right:18px; bottom:80px; background:var(--glass); border:1px solid rgba(255,255,255,.25); padding:8px 12px; border-radius:10px; font-size:12px}
-
     .overlay{position:fixed; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.75)); display:grid; place-items:center; z-index:20}
     .overlay .box{width:min(560px,92vw); text-align:center}
-
     #fxBack{position:fixed; inset:0; pointer-events:none; z-index:1}
     #fx{position:fixed; inset:0; pointer-events:none; z-index:3}
-
-    footer{padding:10px 18px; text-align:center; opacity:.8; font-size:12px}
-    /* --- Mobile fixes & responsive polish --- */
-    body{ overflow-y:auto; }
-    .wrap{ height:auto; min-height:100svh; padding:16px; }
-    .card{ margin:10px auto; }
-    .audio-toggle{ bottom: calc(max(18px, env(safe-area-inset-bottom))); right: calc(18px + env(safe-area-inset-right)); }
-    footer{ padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
-    button, .ghost{ min-height:44px; touch-action:manipulation }
+    footer{padding:10px 18px; text-align:center; opacity:.8; font-size:12px; padding-bottom: calc(10px + env(safe-area-inset-bottom));}
     @media (max-width: 600px){
-      .content{ grid-template-columns:1fr; gap:12px; padding:14px }
       .paper{ padding:16px }
       .actions{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
       #btnShare{ grid-column:1/-1 }
       .title{ font-size:22px }
+      .lantern{ width:70px; height:98px }
     }
-    /* Extra mobile polish (safe areas & spacing) */
-    .wrap{ padding-top: calc(16px + env(safe-area-inset-top)); padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
-    .card{ width:min(960px, 94vw); }
-    @media (max-width:480px){
-      .card{ width:95vw; }
-      .paper{ padding:14px }
-    }
-    /* Extra mobile polish (safe areas & spacing) */
-    .wrap{ padding-top: calc(16px + env(safe-area-inset-top)); padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
-    .card{ width:min(960px, 94vw); }
-    @media (max-width:480px){ .card{ width:95vw; } .paper{ padding:14px } }
-
-    /* Sender box */
-    .frombox label{display:block; margin:6px 0 6px; color:#3b2f1a; font-weight:700}
-    .frombox input{width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.1); font-size:15px; background:#fffdf7; color:#3b2f1a}
   </style>
 </head>
 <body>
@@ -114,28 +83,33 @@
   <canvas id="fx"></canvas>
   <div class="stars"></div>
   <div class="moon"></div>
+
   <div class="wrap">
     <div class="card">
       <div class="card-header">
         <h1 class="title">Tết Trung Thu – Trăng tròn đoàn viên</h1>
         <div class="subtitle">Mở thiệp để nghe nhạc và nhận những lời chúc ý nghĩa ✨</div>
       </div>
+
       <div class="content">
         <section class="paper">
           <p class="greeting" id="greeting"></p>
           <p class="small" id="fromLine"></p>
           <div id="wish" class="wish"><span id="wishText"></span></div>
+
           <div class="actions">
-            <button class="primary" id="btnRandom">Ngẫu nhiên</button><button id="btnCopy">Sao chép</button>
+            <button class="primary" id="btnRandom">Ngẫu nhiên</button>
+            <button id="btnCopy">Sao chép</button>
             <button id="btnSong">Đổi nhạc</button>
-            <button id="btnDL">Tải ảnh</button>
             <a class="ghost" id="btnShare" href="#">Chia sẻ</a>
           </div>
+
           <div class="frombox">
             <label for="fromInput">Tên người gửi</label>
             <input id="fromInput" type="text" placeholder="Nhập tên người gửi..." />
             <div class="actions" style="margin-top:8px"><button id="btnSaveFrom">Lưu tên</button></div>
           </div>
+
           <div class="editor">
             <label for="customInput">Tự viết lời chúc</label>
             <textarea id="customInput" placeholder="Nhập lời chúc..."></textarea>
@@ -147,6 +121,7 @@
           </div>
           <p class="small">Nhạc: <b id="trackName">trungthu</b></p>
         </section>
+
         <section>
           <div class="paper">
             <h3>Ý nghĩa đêm rằm</h3>
@@ -159,150 +134,225 @@
           </div>
         </section>
       </div>
-      <footer>Made with ♥ | Tạo lời chúc tại đây: link</footer>
+
+      <footer>Made with ♥ | Tạo lời chúc tại đây: <span id="baseShow"></span></footer>
     </div>
   </div>
 
+  <!-- Audio -->
   <audio id="bgm" src="trungthu.mp3" preload="auto" loop></audio>
+  <!-- phao: pháo bông gần -->
   <audio id="phao" src="phao.mp3" preload="auto"></audio>
+  <!-- phao1: pháo tầm xa -->
   <audio id="phao1" src="phao1.mp3" preload="auto"></audio>
-  <button class="audio-toggle" id="audioToggle"><svg id="iconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg id="iconPause" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></button>
+
+  <button class="audio-toggle" id="audioToggle">
+    <svg id="iconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  </button>
   <div class="audio-hint" id="audioHint" hidden>Nhấn để bật nhạc ♫</div>
 
   <div class="overlay" id="overlay">
     <div class="box paper">
       <h2>Chúc Trung Thu vui vẻ! 🌕</h2>
-      <div class="actions"><button class="primary" id="startBtn">Bật nhạc & bắt đầu</button><button class="ghost" id="skipBtn">Vào xem</button></div>
+      <div class="actions">
+        <button class="primary" id="startBtn">Bật nhạc & bắt đầu</button>
+        <button class="ghost" id="skipBtn">Vào xem</button>
+      </div>
     </div>
   </div>
 
   <script>
-// ========= Helpers =========
-const $ = (s, p=document) => p.querySelector(s);
-const $$ = (s, p=document) => [...p.querySelectorAll(s)];
-const isMobile = matchMedia('(max-width: 480px), (pointer: coarse)').matches;
+  // ========= Helpers =========
+  const $ = (s, p=document) => p.querySelector(s);
+  const $$ = (s, p=document) => [...p.querySelectorAll(s)];
+  const isMobile = matchMedia('(max-width: 600px), (pointer: coarse)').matches;
 
-// ========= Personalize & Base link =========
-const BASE = 'https://honggiabao2911.github.io/thieptrungthu/';
-const params = new URLSearchParams(location.search);
-const toName = decodeURIComponent((params.get('to')||'').replace(/\+/g,' ')).trim();
-let fromName = decodeURIComponent((params.get('from')||'').replace(/\+/g,' ')).trim();
-try{ if(!fromName){ const savedFrom = localStorage.getItem('fromNameUser'); if(savedFrom) fromName = savedFrom; } }catch{}
-$('#greeting').textContent = toName ? `Gửi ${toName},` : 'Gửi bạn,';
-$('#fromLine').textContent = fromName ? `Từ: ${fromName}` : '';
-function buildShareUrl(){ const u = new URL(BASE); if(fromName) u.searchParams.set('from', fromName); if(toName) u.searchParams.set('to', toName); return u.toString(); }
+  // ========= Personalize & Base link =========
+  const BASE = 'https://honggiabao2911.github.io/thieptrungthu/';
+  $('#baseShow').textContent = BASE;
+  const params = new URLSearchParams(location.search);
+  const toName = decodeURIComponent((params.get('to')||'').replace(/\+/g,' ')).trim();
+  let fromName = decodeURIComponent((params.get('from')||'').replace(/\+/g,' ')).trim();
+  try{ if(!fromName){ const savedFrom = localStorage.getItem('fromNameUser'); if(savedFrom) fromName = savedFrom; } }catch{}
+  $('#greeting').textContent = toName ? `Gửi ${toName},` : 'Gửi bạn,';
+  $('#fromLine').textContent = fromName ? `Từ: ${fromName}` : '';
+  function buildShareUrl(){ const u = new URL(BASE); if(fromName) u.searchParams.set('from', fromName); if(toName) u.searchParams.set('to', toName); return u.toString(); }
 
-// ========= Wishes =========
-const defaultWishes = [
-  'Đêm rằm Trung Thu không chỉ tròn và sáng, mà còn nhắc ta sống trọn vẹn: trọn với gia đình, trọn với ước mơ, và trọn với chính mình. Chúc bạn một mùa trăng bình an, nơi lòng nhẹ như mây và nụ cười nở như hoa.',
-  'Ánh trăng tối nay giống như tấm gương hiền lành soi vào trái tim: điều gì tốt đẹp hãy giữ, điều gì nặng lòng hãy đặt xuống. Chúc bạn đủ tĩnh lặng để lắng nghe mình và đủ can đảm để bước tiếp.',
-  'Chúc bạn và những người thân thương có một đêm rằm ấm áp: có câu chuyện để kể, có tiếng cười để nhớ, có cái nắm tay để yên lòng, và có ước nguyện để cùng nhau đi tới.',
-  'Trung Thu là mùa đoàn viên, nhưng nếu bạn ở xa, mong ánh trăng sẽ làm chiếc cầu nối những yêu thương. Chúc khoảng cách chỉ làm nhớ thương thêm ngọt, và ngày gặp lại sẽ thật gần.',
-  'Mỗi chiếc bánh nướng dẻo thơm là lời nhắc về sự đủ đầy. Chúc bạn đủ sức khỏe để gieo, đủ kiên nhẫn để chờ, đủ niềm vui để gặt, và đủ biết ơn để giữ những gì quý giá.',
-  'Đêm trăng tròn dạy ta về sự trọn vẹn, nhưng cũng nhắc ta chấp nhận những mảnh ghép còn dang dở. Chúc bạn bình thản với những điều chưa kịp hoàn hảo, và dịu dàng với chính mình.',
-  'Chúc bạn có một mái nhà để trở về, một chiếc bàn để quây quần, và những ánh mắt để trao nhau sự an tâm. Bình yên đôi khi chỉ cần giản dị đến thế.',
-  'Nếu năm qua nhiều bão giông, mong trăng rằm tối nay là chỗ bạn ngồi xuống thở sâu. Chúc nỗi buồn khép lại như cánh cửa, và cánh cửa mới mở ra có nắng ấm chờ.',
-  'Trung Thu cho ta cái cớ để nói lời thương. Chúc bạn nói được điều cần nói, ôm được người cần ôm, và kịp trân trọng điều đang có trước khi nó trở thành điều đã qua.',
-  'Chúc công việc của bạn hanh thông như con đường dưới trăng—vừa sáng, vừa rõ. Mỗi bước đi có mục đích, mỗi ngày mới có hi vọng.',
-  'Học hành là hành trình dài. Chúc bạn học được điều khó một cách nhẹ nhàng, bền bỉ như trăng—không vội vàng nhưng luôn tròn đúng hẹn.',
-  'Mong nhà bạn có tiếng nói cười, có hạnh phúc đủ đầy và có những bất đồng đủ nhỏ để học cách yêu nhau hơn.',
-  'Chúc bạn đủ nghiêm túc với ước mơ để không bỏ cuộc, và đủ hài hước với cuộc đời để không cứng nhắc. Vừa vững vàng, vừa nhẹ nhàng.',
-  'Đêm nay, thử tha thứ cho điều khó tha và biết ơn vì điều dễ thương. Chúc trái tim bạn có thêm một ngăn nhỏ cho sự cảm thông.',
-  'Chúc những khởi đầu mới của bạn được nâng đỡ bởi lòng tốt của người khác—và chính bạn cũng trở thành sự nâng đỡ cho ai đó.',
-  'Nếu có điều gì bạn mong cầu, mong nó đến khi bạn đã sẵn sàng. Còn nếu chưa đến, mong bạn vẫn bình yên và bền bỉ tiếp tục gieo.',
-  'Trung Thu là dịp cho trẻ thơ, nhưng người lớn cũng cần một đêm để tin vào điều lành. Chúc bạn giữ lại một phần “trẻ thơ” trong tim để cuộc sống luôn có chỗ cho kỳ diệu.',
-  'Chúc bạn đủ thời gian cho công việc, đủ dịu dàng cho tình thân, và đủ riêng tư cho chính mình. Mọi điều đều cần không gian để lớn lên.',
-  'Mong bạn nhận được những lời chúc chân thành, và cũng gửi đi được một lời chúc làm ai đó ấm lòng. Sự tử tế lan nhanh hơn ánh pháo hoa.',
-  'Nếu bạn đang mỏi mệt, chúc đêm rằm này là trạm nghỉ: uống ngụm trà ấm, nói vài câu nên nói, và để trái tim được yên tĩnh một lát.',
-  'Chúc bạn có người để trò chuyện, có việc để say mê, có nơi để trở về. Ba điều đó ghép lại đã là hạnh phúc giản đơn.',
-  'Mong giấc ngủ đêm nay thật sâu, mang theo những ước mơ hiền hậu. Sáng mai thức dậy, bạn thấy mình thảnh thơi và tràn đầy năng lượng.',
-  'Chúc bạn học cách buông bỏ thứ làm mình nặng nề—để tay còn rảnh mà đón nhận điều đáng giá đang tới.',
-  'Trung Thu gửi tặng ta chiếc la bàn tên là “biết ơn”. Chúc bạn luôn tìm được hướng đúng trong những ngày nhiều ngã rẽ.',
-  'Chúc mối quan hệ bạn trân trọng được nuôi dưỡng bằng lắng nghe, tôn trọng và những điều nhỏ bé làm nhau mỉm cười mỗi ngày.',
-  'Nếu năm nay bạn có mất mát, xin gửi một cái ôm từ xa. Mong ký ức đẹp sẽ dịu đi nỗi đau và biến thành sức mạnh dịu dàng trong bạn.',
-  'Chúc bạn đủ duyên gặp đúng người, đúng việc, đúng thời điểm. Còn trước đó, mong bạn vẫn đủ vui với hành trình một mình.',
-  'Mong những nỗ lực thầm lặng của bạn được ghi nhận, còn những điều chưa như ý sớm hoá cơ hội để trưởng thành.',
-  'Chúc bạn đi nhẹ trong thế giới ồn ào, giữ lòng sáng trong khi bước qua những ngã rẽ khó đoán.',
-  'Đêm trăng tròn—chúc trái tim bạn cũng tròn: tròn sự tử tế, tròn lời hứa với bản thân, và tròn hi vọng về ngày mai.',
-  'Chúc các em nhỏ có mùa lân rộn rã, đèn lồng lung linh; chúc người lớn có phút giây trở về tuổi thơ để thấy mình dịu lại.',
-  'Mong mọi điều bạn gửi vào vũ trụ tối nay sẽ quay về theo cách tốt lành nhất, đúng lúc nhất.',
-  'Chúc bạn đủ tài để làm, đủ tâm để sống, và đủ tầm để yêu thương rộng lượng.',
-  'Nếu trái tim bạn đang hẹp lại vì lo toan, mong trăng rằm mở ra một khung cửa mới, để gió mát và hi vọng bước vào.',
-  'Chúc bạn luôn có thứ để mong chờ, người để tin cậy, và lý do để mỉm cười mỗi cuối ngày.'
-];
+  // ========= Wishes =========
+  const defaultWishes = [
+    'Đêm rằm Trung Thu không chỉ tròn và sáng, mà còn nhắc ta sống trọn vẹn: trọn với gia đình, trọn với ước mơ, và trọn với chính mình. Chúc bạn một mùa trăng bình an, nơi lòng nhẹ như mây và nụ cười nở như hoa.',
+    'Ánh trăng tối nay giống như tấm gương hiền lành soi vào trái tim: điều gì tốt đẹp hãy giữ, điều gì nặng lòng hãy đặt xuống. Chúc bạn đủ tĩnh lặng để lắng nghe mình và đủ can đảm để bước tiếp.',
+    'Chúc bạn và những người thân thương có một đêm rằm ấm áp: có câu chuyện để kể, có tiếng cười để nhớ, có cái nắm tay để yên lòng, và có ước nguyện để cùng nhau đi tới.'
+  ];
+  let wishes; try{ const saved = JSON.parse(localStorage.getItem('wishesUser')||'null'); wishes = Array.isArray(saved) && saved.length ? saved : [...defaultWishes]; }catch{ wishes=[...defaultWishes]; }
+  let idx = 0; function render(){ $('#wishText').textContent = wishes[idx]; }
+  render();
 
-let wishes; try{ const saved = JSON.parse(localStorage.getItem('wishesUser')||'null'); wishes = Array.isArray(saved) && saved.length ? saved : [...defaultWishes]; }catch{ wishes=[...defaultWishes]; }
-let idx = 0; function render(){ $('#wishText').textContent = wishes[idx]; }
-render();
+  // ========= Emoji decoration =========
+  function decorate(text){ const pre=['🌕','🏮','🎑','✨','🥮']; const suf=['✨','🌕','🏮','⭐️']; const p=pre[Math.floor(Math.random()*pre.length)]; const s=suf[Math.floor(Math.random()*suf.length)]; return p+' '+text+' '+s; }
 
-// ========= Emoji decoration for share/copy =========
-function decorate(text){ const pre=['🌕','🏮','🎑','✨','🥮']; const suf=['✨','🌕','🏮','⭐️']; const p=pre[Math.floor(Math.random()*pre.length)]; const s=suf[Math.floor(Math.random()*suf.length)]; return p+' '+text+' '+s; }
+  // ========= Buttons =========
+  $('#btnRandom').onclick = ()=>{ idx=Math.floor(Math.random()*wishes.length); render(); $('#customInput').value = wishes[idx] || ''; };
 
-// ========= Buttons =========
-$('#btnRandom').onclick = ()=>{ idx=Math.floor(Math.random()*wishes.length); render(); };
+  // ========= Copy =========
+  $('#btnCopy').onclick = async ()=>{ const head = toName?`Gửi ${toName}, `:''; const text = `${head}${decorate(wishes[idx])}\nTạo lời chúc tại đây: ${BASE}`; await navigator.clipboard.writeText(text); toast('Đã sao chép lời chúc!'); sparkle(); };
 
-// ========= Copy (one link only) =========
-$('#btnCopy').onclick = async ()=>{ const head = toName?`Gửi ${toName}, `:''; const text = `${head}${decorate(wishes[idx])}
-Tạo lời chúc tại đây: ${BASE}`; await navigator.clipboard.writeText(text); toast('Đã sao chép lời chúc!'); sparkle(); };
+  // ========= Share as IMAGE (đa dự phòng) =========
+  $('#btnShare').onclick = async (e)=>{
+    e.preventDefault();
+    const {blob} = await createCardImage({ to: toName||'bạn', from: fromName||'Một người bạn', text: decorate(wishes[idx]) });
+    const file = new File([blob], 'thiep-trung-thu.png', {type:'image/png'});
+    const caption = `Tạo lời chúc tại đây: ${BASE}`;
 
-// ========= Download image =========
-$('#btnDL').onclick = async ()=>{ const {blob} = await createCardImage({ to: toName||'bạn', from: fromName||'Một người bạn', text: decorate(wishes[idx]) }); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove(); toast('Đã tạo & tải ảnh thiệp'); };
+    // 1) Web Share Level 2 (chia sẻ file)
+    try{
+      if(navigator.canShare && navigator.canShare({ files:[file] })){
+        await navigator.share({ files:[file], title:'Thiệp Trung Thu', text: caption });
+        toast('Đã mở chia sẻ bằng ảnh');
+        return;
+      }
+    }catch{}
 
-// ========= Share as IMAGE (fallback to download) =========
-$('#btnShare').onclick = async (e)=>{ e.preventDefault(); const {blob} = await createCardImage({ to: toName||'bạn', from: fromName||'Một người bạn', text: decorate(wishes[idx]) }); const file = new File([blob], 'thiep-trung-thu.png', {type:'image/png'}); const caption = `Tạo lời chúc tại đây: ${BASE}`; try{ if(navigator.canShare && navigator.canShare({ files:[file] })){ await navigator.share({ files:[file], title:'Thiệp Trung Thu', text: caption }); toast('Đã mở chia sẻ bằng ảnh'); } else { const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove(); toast('Thiết bị không hỗ trợ chia sẻ ảnh trực tiếp — đã tải ảnh để bạn gửi qua Zalo/FB.'); } }catch(err){ const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove(); }
-};
+    // 2) Web Share thường với data URL (nhiều trình duyệt di động hỗ trợ)
+    try{
+      const dataUrl = await new Promise(res=>{
+        const r = new FileReader(); r.onload = ()=>res(r.result); r.readAsDataURL(blob);
+      });
+      if(navigator.share){
+        await navigator.share({ title:'Thiệp Trung Thu', text: caption, url: dataUrl });
+        toast('Đã mở chia sẻ đường dẫn ảnh');
+        return;
+      }
+    }catch{}
 
-// ========= Save sender name =========
-const fromInput = $('#fromInput'); if(fromInput){ fromInput.value = fromName || ''; }
-$('#btnSaveFrom').onclick = ()=>{ fromName = (fromInput.value||'').trim() || fromName; try{ localStorage.setItem('fromNameUser', fromName); }catch{} $('#fromLine').textContent = fromName?`Từ: ${fromName}`:''; toast('Đã lưu tên người gửi'); };
+    // 3) Chép ảnh vào clipboard
+    try{
+      if(navigator.clipboard && window.ClipboardItem){
+        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+        toast('Đã chép ảnh vào clipboard — hãy dán vào Zalo/FB');
+        return;
+      }
+    }catch{}
 
-// ========= Audio & playlist =========
-const audio = $('#bgm'); const toggleBtn = $('#audioToggle'); const iconPlay=$('#iconPlay'); const iconPause=$('#iconPause'); let isPlaying=false;
-function updateAudioUI(){ iconPlay.style.display = isPlaying?'none':'block'; iconPause.style.display = isPlaying?'block':'none'; }
-async function playAudio(){ try{ await audio.play(); isPlaying=true; updateAudioUI(); }catch{ $('#audioHint').hidden=false; } }
-function pauseAudio(){ audio.pause(); isPlaying=false; updateAudioUI(); }
-toggleBtn.onclick = ()=>{ isPlaying ? pauseAudio() : playAudio(); };
-const tracks=['trungthu.mp3','trungthu1.mp3','trungthu2.mp3','trungthu3.mp3','trungthu4.mp3']; let trackIndex=0;
-function updateTrack(){ $('#trackName').textContent = tracks[trackIndex].replace('.mp3',''); }
-function setTrack(i){ trackIndex=(i+tracks.length)%tracks.length; audio.src=tracks[trackIndex]; if(isPlaying){ audio.currentTime=0; audio.play().catch(()=>{}); } updateTrack(); }
-$('#btnSong').onclick = ()=>{ setTrack(trackIndex+1); toast('Đổi nhạc: '+tracks[trackIndex].replace('.mp3','')); };
-audio.addEventListener('ended', ()=> setTrack(trackIndex+1)); updateTrack();
-$('#startBtn').onclick = async ()=>{ await playAudio(); $('#overlay').style.display='none'; sparkle(); };
-$('#skipBtn').onclick = ()=>{ $('#overlay').style.display='none'; };
+    // 4) Tải ảnh về máy (chắc chắn chạy)
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='thiep-trung-thu.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    toast('Thiết bị không hỗ trợ chia sẻ trực tiếp — đã tải ảnh để bạn gửi.');
+  };
 
-// ========= Canvases (effects) =========
-const fx = $('#fx'); const ctx = fx.getContext('2d'); const fxBack = $('#fxBack'); const ctxB = fxBack.getContext('2d');
-function resize(){ fx.width = innerWidth*devicePixelRatio; fx.height = innerHeight*devicePixelRatio; fxBack.width = innerWidth*devicePixelRatio; fxBack.height = innerHeight*devicePixelRatio; }
-addEventListener('resize', resize); resize();
+  // ========= Audio =========
+  const audio = $('#bgm');
+  const sfxFire = $('#phao');     // pháo bông gần
+  const sfxRemote = $('#phao1');  // pháo tầm xa
 
-// Foreground particles
-const particles=[]; function spawn(x,y,color,count=140){ count=Math.floor(count*(isMobile?0.6:1)); for(let i=0;i<count;i++){ const a=Math.random()*Math.PI*2; const s=Math.random()*4+1.6; particles.push({x:x*devicePixelRatio,y:y*devicePixelRatio,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:120+Math.random()*160,color}); } }
-function sparkle(){ const col='hsl('+ (Math.random()*360) +',100%,70%)'; spawn(innerWidth*0.5, innerHeight*0.35, col, isMobile?50:80); }
-function loop(){ ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='rgba(0,0,0,0.12)'; ctx.fillRect(0,0,fx.width,fx.height); ctx.globalCompositeOperation='lighter'; for(const p of particles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.01; p.life-=1; ctx.beginPath(); ctx.arc(p.x,p.y, 2*devicePixelRatio, 0, Math.PI*2); ctx.fillStyle=p.color; ctx.fill(); } for(let i=particles.length-1;i>=0;i--){ if(particles[i].life<=0) particles.splice(i,1); } requestAnimationFrame(loop); } loop();
-$('#btnFire').onclick = ()=>{ for(let i=0;i<3;i++) setTimeout(()=>{ const col='hsl('+ (Math.random()*360) +',100%,70%)'; spawn(innerWidth*Math.random(), innerHeight*(.3+.4*Math.random()), col, 150); playSfxNear(); }, i*180); };
+  const toggleBtn = $('#audioToggle');
+  const iconPlay=$('#iconPlay'); const iconPause=$('#iconPause');
+  let isPlaying=false;
 
-// Background shapes
-const farParticles=[]; function addFarPoint(cx,cy,px,py,color){ const j=0.6,s=devicePixelRatio; const vx=px*0.02+(Math.random()-0.5)*j; const vy=py*0.02+(Math.random()-0.5)*j; farParticles.push({x:(cx+px)*s,y:(cy+py)*s,vx,vy,life:240+Math.random()*140,color}); }
-function spawnShapeBack(shape){ const cx=innerWidth*(0.2+0.6*Math.random()); const cy=innerHeight*(0.18+0.22*Math.random()); const hue=Math.floor(Math.random()*360); const color='hsl('+hue+',100%,70%)'; const r=Math.min(innerWidth,innerHeight)*0.08; const N=140; if(shape==='ring'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy,Math.cos(t)*r,Math.sin(t)*r,color); } } else if(shape==='star'){ const spikes=5,r1=r,r2=r*0.45,pts=spikes*2; for(let i=0;i<pts;i++){ const t=i/pts*2*Math.PI; const rr=(i%2===0)?r1:r2; addFarPoint(cx,cy,Math.cos(t)*rr,Math.sin(t)*rr,color); } } else if(shape==='heart'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; const x=16*Math.sin(t)**3; const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); const s=r/18; addFarPoint(cx,cy,x*s,-y*s,color); } } else if(shape==='smiley'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy,Math.cos(t)*r,Math.sin(t)*r,color); } const er=r*0.12, ex=r*0.35, ey=-r*0.2; for(let i=0;i<40;i++){ const t=i/40*2*Math.PI; addFarPoint(cx+ex,cy+ey,Math.cos(t)*er,Math.sin(t)*er,color); addFarPoint(cx-ex,cy+ey,Math.cos(t)*er,Math.sin(t)*er,color); } for(let i=0;i<70;i++){ const t=(-Math.PI*0.1)+(i/70)*Math.PI*1.2; const rr=r*0.55; addFarPoint(cx,cy+r*0.15,Math.cos(t)*rr,Math.sin(t)*rr,color); } } else if(shape==='spiral'){ const turns=3.2,steps=240,sr=r*0.1,er=r; for(let i=0;i<steps;i++){ const t=i/steps*turns*2*Math.PI; const rr=sr+(er-sr)*(i/steps); addFarPoint(cx,cy,Math.cos(t)*rr,Math.sin(t)*rr,color); } } }
-function loopBack(){ ctxB.globalCompositeOperation='destination-out'; ctxB.fillStyle='rgba(0,0,0,0.10)'; ctxB.fillRect(0,0,fxBack.width,fxBack.height); ctxB.globalCompositeOperation='lighter'; for(const p of farParticles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.004; p.life-=1; ctxB.beginPath(); ctxB.arc(p.x,p.y, 1.8*devicePixelRatio, 0, Math.PI*2); ctxB.fillStyle=p.color; ctxB.fill(); } for(let i=farParticles.length-1;i>=0;i--){ if(farParticles[i].life<=0) farParticles.splice(i,1); } requestAnimationFrame(loopBack); } loopBack();
-const shapes=['ring','star','heart','smiley','spiral']; $('#btnRemote').onclick = ()=>{ const bursts=2+Math.floor(Math.random()*2); for(let i=0;i<bursts;i++) setTimeout(()=>{ spawnShapeBack(shapes[Math.floor(Math.random()*shapes.length)]); playSfxFar(); }, i*260); };
+  // Danh sách bài nhạc (đã thêm trungthu4)
+  const tracks = ['trungthu.mp3','trungthu1.mp3','trungthu2.mp3','trungthu3.mp3','trungthu4.mp3'];
+  let trackIndex = 0;
 
-// Stars & lanterns
-const sky = $('.stars'); function makeStar(n=120){ for(let i=0;i<n;i++){ const s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.top=(Math.random()*100)+'%'; const d=Math.random()*3+1; s.style.opacity=0.6+Math.random()*0.4; s.style.animationDuration=(2.5+Math.random()*2)+'s'; s.style.transform='scale('+(d/2)+')'; sky.appendChild(s); } }
-function makeLanterns(n=10){ for(let i=0;i<n;i++){ const l=document.createElement('div'); l.className='lantern'; l.style.left=(Math.random()*100)+'%'; l.style.animationDuration=(12+Math.random()*8)+'s'; l.style.opacity=0.7+Math.random()*0.3; l.style.filter='hue-rotate('+(Math.floor(Math.random()*60)-30)+'deg)'; document.body.appendChild(l); } }
-makeStar(isMobile?70:120); makeLanterns(isMobile?8:12); $('#btnLantern').onclick = ()=> makeLanterns(5);
+  function updateTrackName(){ $('#trackName').textContent = tracks[trackIndex].replace('.mp3',''); }
+  function updateAudioUI(){ iconPlay.style.display = isPlaying?'none':'block'; iconPause.style.display = isPlaying?'block':'none'; }
 
-// SFX
-function clonePlay(el, vol=0.7, ttl=6000){ try{ const c=el.cloneNode(); c.volume=vol; c.play(); setTimeout(()=>c.remove(), ttl); }catch{} }
-const sfxNear=$('#phao'); const sfxFar=$('#phao1'); function playSfxNear(){ clonePlay(sfxNear,0.7,5000); } function playSfxFar(){ clonePlay(sfxFar,0.55,6000); }
+  async function playAudio(){
+    try{
+      await audio.play();
+      isPlaying=true; updateAudioUI();
+    }catch{
+      $('#audioHint').hidden=false;
+    }
+  }
+  function pauseAudio(){ audio.pause(); isPlaying=false; updateAudioUI(); }
 
-// ========= Card image generator =========
-function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
-function wrapText(ctx, text, x, y, maxWidth, lineHeight){ const words=text.split(' '); let line=''; const lines=[]; for(let n=0;n<words.length;n++){ const testLine = line + words[n] + ' '; const metrics = ctx.measureText(testLine); if(metrics.width > maxWidth && n>0){ lines.push(line.trim()); line = words[n] + ' '; } else { line = testLine; } } lines.push(line.trim()); for(let i=0;i<lines.length;i++){ ctx.fillText(lines[i], x, y + i*lineHeight); } return y + (lines.length-1)*lineHeight; }
-async function createCardImage({to, from, text}){ const W=1080, H=1350; const canvas=document.createElement('canvas'); canvas.width=W; canvas.height=H; const c=canvas.getContext('2d'); const g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0b1b3a'); g.addColorStop(1,'#1b335f'); c.fillStyle=g; c.fillRect(0,0,W,H); c.save(); c.shadowColor='rgba(255,233,163,.4)'; c.shadowBlur=60; c.fillStyle='#ffe9a3'; c.beginPath(); c.arc(W*0.82,H*0.18,80,0,Math.PI*2); c.fill(); c.restore(); function lantern(x,y,s,color){ c.save(); c.translate(x,y); c.scale(s,s); c.fillStyle=color; c.shadowColor=color; c.shadowBlur=40; roundRect(c,-30,-45,60,90,16); c.fill(); c.restore(); } lantern(160,160,1.0,'#ffcf70'); lantern(260,280,0.8,'#ffd166'); lantern(W-220,240,0.9,'#ffc35a'); const M=80; const cardW=W-M*2, cardH=H-380; const cardX=M, cardY=260; c.save(); c.shadowColor='rgba(0,0,0,.25)'; c.shadowBlur=24; c.fillStyle='#fff7e6'; roundRect(c, cardX, cardY, cardW, cardH, 28); c.fill(); c.restore(); c.lineWidth=2; c.strokeStyle='#ffd166'; roundRect(c, cardX, cardY, cardW, cardH, 28); c.stroke(); c.fillStyle='#3b2f1a'; c.font='700 40px sans-serif'; c.fillText('Thiệp Trung Thu', cardX+28, cardY+60); c.font='700 36px sans-serif'; c.fillText('Gửi ' + (to||'bạn') + ',', cardX+28, cardY+120); c.font='400 34px sans-serif'; const maxW = cardW-56; let y = cardY+180; y = wrapText(c, text, cardX+28, y, maxW, 50) + 20; c.font='500 30px sans-serif'; c.fillText('Từ: ' + (from||'Một người bạn'), cardX+28, y+50); c.globalAlpha=0.8; c.font='400 26px sans-serif'; c.fillText('Tạo lời chúc tại đây: ' + BASE, cardX+28, cardY+cardH-32); c.globalAlpha=1; return new Promise((resolve)=> canvas.toBlob((blob)=> resolve({blob}), 'image/png')); }
+  // Đổi bài an toàn: tự bỏ qua bài lỗi (nếu không tồn tại)
+  async function setTrack(i, {autoplayIfPlaying=true} = {}){
+    trackIndex = ((i % tracks.length) + tracks.length) % tracks.length;
+    const wasPlaying = isPlaying;
+    audio.src = tracks[trackIndex];
+    updateTrackName();
 
-// ===== Toast =====
-function toast(msg){ const t=document.createElement('div'); t.textContent=msg; Object.assign(t.style,{ position:'fixed', left:'50%', bottom:'30px', transform:'translateX(-50%)', background:'rgba(0,0,0,.7)', color:'#fff', padding:'10px 14px', borderRadius:'999px', zIndex:99, fontWeight:700 }); document.body.appendChild(t); setTimeout(()=>{ t.remove(); }, 1500); }
-</script>
+    // chờ canplay cho chắc
+    const waitReady = new Promise(resolve=>{
+      const on = ()=>{ audio.removeEventListener('canplay', on); resolve(); };
+      audio.addEventListener('canplay', on, {once:true});
+      setTimeout(resolve, 1500);
+    });
+    audio.load();
+    await waitReady;
+
+    if(wasPlaying && autoplayIfPlaying){ await playAudio(); }
+  }
+
+  // Gắn nút đổi nhạc
+  $('#btnSong').onclick = async ()=>{
+    await setTrack(trackIndex + 1);
+    toast('Đã đổi nhạc: ' + tracks[trackIndex].replace('.mp3',''));
+    sparkle();
+  };
+
+  // Nút play/pause tổng
+  toggleBtn.onclick = ()=>{ isPlaying ? pauseAudio() : playAudio(); };
+  updateTrackName();
+
+  // Overlay
+  $('#startBtn').onclick = async ()=>{ await playAudio(); $('#overlay').style.display='none'; sparkle(); };
+  $('#skipBtn').onclick = ()=>{ $('#overlay').style.display='none'; };
+
+  // ========= Lưu tên người gửi & Editor =========
+  const fromInput = $('#fromInput'); if(fromInput){ fromInput.value = fromName || ''; }
+  $('#btnSaveFrom').onclick = ()=>{ fromName = (fromInput.value||'').trim() || fromName; try{ localStorage.setItem('fromNameUser', fromName); }catch{} $('#fromLine').textContent = fromName?`Từ: ${fromName}`:''; toast('Đã lưu tên người gửi'); };
+  fromInput?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); $('#btnSaveFrom').click(); } });
+
+  const customInput = $('#customInput'); customInput.value = wishes[idx] || '';
+  function saveWishes(clear=false){ try{ clear ? localStorage.removeItem('wishesUser') : localStorage.setItem('wishesUser', JSON.stringify(wishes)); }catch{} }
+  $('#btnUse').onclick = ()=>{ const t = (customInput.value||'').trim(); if(!t){ toast('Nhập lời chúc trước nhé'); return; } wishes[idx] = t; saveWishes(); render(); sparkle(); toast('Đã cập nhật lời chúc'); };
+  $('#btnAddWish').onclick = ()=>{ const t = (customInput.value||'').trim(); if(!t){ toast('Nhập lời chúc trước nhé'); return; } wishes.push(t); idx = wishes.length - 1; saveWishes(); render(); sparkle(); toast('Đã thêm vào danh sách'); };
+  $('#btnReset').onclick = ()=>{ if(confirm('Khôi phục danh sách lời chúc gốc?')){ wishes=[...defaultWishes]; idx=0; saveWishes(true); render(); toast('Đã khôi phục danh sách gốc'); } };
+
+  // ========= Hiệu ứng pháo sáng =========
+  const fx = $('#fx'); const ctx = fx.getContext('2d'); const fxBack = $('#fxBack'); const ctxB = fxBack.getContext('2d');
+  function resize(){ fx.width = innerWidth*devicePixelRatio; fx.height = innerHeight*devicePixelRatio; fxBack.width = innerWidth*devicePixelRatio; fxBack.height = innerHeight*devicePixelRatio; }
+  addEventListener('resize', resize); resize();
+
+  const MOBILE_BOOST = isMobile ? 1.15 : 1;
+  const particles=[];
+  function spawn(x,y,color,count=140){ count=Math.floor(count*(MOBILE_BOOST)); for(let i=0;i<count;i++){ const a=Math.random()*Math.PI*2; const s=Math.random()*4+1.8; particles.push({x:x*devicePixelRatio,y:y*devicePixelRatio,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:130+Math.random()*170,color}); } }
+  function sparkle(){ const col='hsl('+ (Math.random()*360) +',100%,70%)'; spawn(innerWidth*0.5, innerHeight*0.35, col, isMobile?90:80); }
+  function loop(){ ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='rgba(0,0,0,0.10)'; ctx.fillRect(0,0,fx.width,fx.height); ctx.globalCompositeOperation='lighter'; for(const p of particles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.011; p.life-=1; ctx.beginPath(); const r = (isMobile?3.0:2.2)*devicePixelRatio; ctx.arc(p.x,p.y, r, 0, Math.PI*2); ctx.fillStyle=p.color; ctx.fill(); ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.lineWidth=devicePixelRatio*0.6; ctx.stroke(); } for(let i=particles.length-1;i>=0;i--){ if(particles[i].life<=0) particles.splice(i,1); } requestAnimationFrame(loop); } loop();
+
+  const sky = $('.stars');
+  function makeStar(n=120){ for(let i=0;i<n;i++){ const s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.top=(Math.random()*100)+'%'; const d=1+Math.random()*3; s.style.opacity=0.6+Math.random()*0.4; s.style.animationDuration=(2.5+Math.random()*2)+'s'; s.style.transform='scale('+(d/1.6)+')'; sky.appendChild(s); } }
+  function makeLanterns(n=10){ for(let i=0;i<n;i++){ const l=document.createElement('div'); l.className='lantern'; l.style.left=(Math.random()*100)+'%'; l.style.animationDuration=(12+Math.random()*8)+'s'; l.style.opacity=0.85; document.body.appendChild(l); } }
+  makeStar(isMobile?110:120); makeLanterns(isMobile?10:12);
+
+  // ====== Nút hiệu ứng + âm thanh pháo ======
+  function playSfx(el, vol=1){
+    try{
+      el.volume = vol;
+      el.currentTime = 0; // để bấm liên tục vẫn nghe
+      el.play();
+    }catch{}
+  }
+
+  $('#btnFire').onclick = ()=>{ sparkle(); playSfx(sfxFire, 0.9); };
+  $('#btnRemote').onclick = ()=>{ spawnShapeBack(); playSfx(sfxRemote, 1); };
+  $('#btnLantern').onclick = ()=> makeLanterns(6);
+
+  // ===== Background soft effects (cho "pháo tầm xa") =====
+  const farParticles=[];
+  function addFarPoint(cx,cy,px,py,color){ const j=0.6,s=devicePixelRatio; const vx=px*0.02+(Math.random()-0.5)*j; const vy=py*0.02+(Math.random()-0.5)*j; farParticles.push({x:(cx+px)*s,y:(cy+py)*s,vx,vy,life:260+Math.random()*160,color}); }
+  function spawnShapeBack(){ const cx=innerWidth*0.55; const cy=innerHeight*0.32; const hue=Math.floor(Math.random()*360); const color='hsla('+hue+',100%,70%,0.9)'; const r=Math.min(innerWidth,innerHeight)*0.09; const N=120; for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy,Math.cos(t)*r,Math.sin(t)*r,color); } }
+  function loopBack(){ ctxB.globalCompositeOperation='destination-out'; ctxB.fillStyle='rgba(0,0,0,0.09)'; ctxB.fillRect(0,0,fxBack.width,fxBack.height); ctxB.globalCompositeOperation='lighter'; for(const p of farParticles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.0045; p.life-=1; ctxB.beginPath(); ctxB.arc(p.x,p.y, (isMobile?2.2:1.8)*devicePixelRatio, 0, Math.PI*2); ctxB.fillStyle=p.color; ctxB.fill(); } for(let i=farParticles.length-1;i>=0;i--){ if(farParticles[i].life<=0) farParticles.splice(i,1); } requestAnimationFrame(loopBack); }
+  loopBack(); spawnShapeBack();
+
+  // ===== Toast =====
+  function toast(msg){ const t=document.createElement('div'); t.textContent=msg; Object.assign(t.style,{ position:'fixed', left:'50%', bottom:'30px', transform:'translateX(-50%)', background:'rgba(0,0,0,.7)', color:'#fff', padding:'10px 14px', borderRadius:'999px', zIndex:99, fontWeight:700 }); document.body.appendChild(t); setTimeout(()=>{ t.remove(); }, 1500); }
+
+  </script>
 </body>
 </html>
