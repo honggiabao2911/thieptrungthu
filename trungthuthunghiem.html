@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Tết Trung Thu ✨🌕</title>
+  <meta name="description" content="Thiệp web Trung Thu có nhạc, hiệu ứng pháo hoa và lời chúc ý nghĩa. Tùy biến tên người nhận & chia sẻ dễ dàng." />
+  <meta property="og:title" content="Thiệp Trung Thu của bạn" />
+  <meta property="og:description" content="Mở thiệp để nghe nhạc và nhận lời chúc Trung Thu thật ý nghĩa!" />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0b1b3a" />
+  <link rel="preload" as="audio" href="trungthu.mp3" />
+  <link rel="preload" as="audio" href="phao.mp3" />
+  <link rel="preload" as="audio" href="trungthu1.mp3" />
+  <link rel="preload" as="audio" href="trungthu2.mp3" />
+  <link rel="preload" as="audio" href="trungthu3.mp3" />
+  <link rel="preload" as="audio" href="trungthu4.mp3" />
+  <link rel="preload" as="audio" href="phao1.mp3" />
+  <style>
+    :root{
+      --bg1:#0b1b3a; /* night indigo */
+      --bg2:#1b335f; /* deep blue */
+      --moon:#ffe9a3;
+      --lantern:#ffb84d;
+      --accent:#ffd166;
+      --paper:#fff7e6;
+      --glass: rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color:#f5f7ff; background: radial-gradient(1200px 800px at 70% -10%, #254273 0%, transparent 60%), linear-gradient(180deg, var(--bg2), var(--bg1));
+      overflow:hidden;
+    }
+
+    /* Stars */
+    .stars{position:fixed; inset:0; pointer-events:none;}
+    .stars i{position:absolute; width:2px; height:2px; background:#cfe3ff; opacity:.9; border-radius:50%; animation: twinkle 3.5s infinite ease-in-out;}
+    @keyframes twinkle{ 50%{ transform: scale(1.6); opacity:.4 } }
+
+    /* Moon */
+    .moon{position:absolute; top:4vh; right:6vw; width:120px; height:120px; background:radial-gradient(circle at 30% 30%, #fff7d1 20%, var(--moon) 60%, #f7d77a 100%); border-radius:50%; box-shadow:0 0 30px 10px rgba(255,233,163,.3), 0 0 100px rgba(255,233,163,.2);}
+
+    /* Floating lanterns */
+    .lantern{position:absolute; bottom:-140px; width:42px; height:60px; background:linear-gradient(180deg, #ffcf70, var(--lantern)); border-radius:10px; box-shadow:0 -8px 18px rgba(255,209,102,.35) inset, 0 8px 18px rgba(0,0,0,.25) inset, 0 0 24px rgba(255,184,77,.5);
+      transform:translateY(0) scale(1); animation: floatUp 16s linear infinite;}
+    .lantern::before{content:""; position:absolute; left:50%; top:-16px; width:22px; height:16px; transform:translateX(-50%);
+      background:linear-gradient(180deg, #fbe7b8, #ffd166); border-radius:4px 4px 0 0;}
+    .lantern::after{content:""; position:absolute; left:50%; bottom:-14px; width:18px; height:14px; transform:translateX(-50%);
+      background:linear-gradient(180deg, #ffebc6, #ffb84d); border-radius:0 0 4px 4px; box-shadow:0 4px 12px rgba(255,184,77,.7);} 
+    @keyframes floatUp{ 0%{ transform: translateY(0) } 100%{ transform: translateY(-120vh) } }
+
+    /* Card */
+    .wrap{position:relative; z-index:2; height:100dvh; display:grid; place-items:center; padding:24px}
+    .card{width:min(920px, 92vw); background:linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.06)); border:1px solid rgba(255,255,255,.18); border-radius:24px; box-shadow:0 20px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.2);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); overflow:hidden}
+    .card-header{display:flex; align-items:center; gap:14px; padding:18px 22px; background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.02)); border-bottom:1px solid rgba(255,255,255,.15)}
+    .title{font-size:clamp(22px, 2.6vw, 32px); margin:0; font-weight:800; letter-spacing:.4px}
+    .subtitle{opacity:.85; font-size:clamp(13px, 1.4vw, 15px)}
+    .paper{background:var(--paper); color:#3b2f1a; padding:22px; border-radius:14px; box-shadow: inset 0 2px 0 #fff, 0 10px 24px rgba(0,0,0,.15)}
+
+    .content{display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; padding:22px}
+    @media (max-width: 860px){ .content{grid-template-columns:1fr; gap:14px} }
+
+    .wish{min-height:170px; line-height:1.6; font-size:clamp(17px, 2vw, 20px); position:relative}
+    .wish .cursor{display:inline-block; width:10px; background:#3b2f1a; margin-left:2px; animation: blink 1s steps(2) infinite}
+    @keyframes blink{ to{ background:transparent } }
+
+    .actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
+    button, .ghost{
+      border:0; padding:10px 14px; border-radius:999px; font-weight:700; cursor:pointer; 
+      background:#1e293b; color:#e9f1ff; border:1px solid rgba(255,255,255,.2); transition: transform .06s ease, box-shadow .2s ease, background .2s ease; text-decoration:none
+    }
+    button:hover, .ghost:hover{ transform: translateY(-1px); box-shadow:0 8px 20px rgba(0,0,0,.25) }
+    button.primary{ background: linear-gradient(180deg, #ffd166, #ffb84d); color:#3b2f1a; border-color:#f59f0b }
+    .ghost{ background: rgba(255,255,255,.14); color:#fff; border-color: rgba(255,255,255,.35) }
+    .ghost:hover{ background: rgba(255,255,255,.22) }
+
+    .greeting{font-weight:800; font-size:clamp(18px, 2.2vw, 22px); margin:0 0 6px}
+    .small{font-size:13px; opacity:.8}
+
+    /* Floating audio toggle */
+    .audio-toggle{position:fixed; right:18px; bottom:18px; z-index:10; width:54px; height:54px; display:grid; place-items:center; border-radius:50%; background:var(--glass); border:1px solid rgba(255,255,255,.3); backdrop-filter: blur(8px); cursor:pointer}
+    .audio-toggle svg{width:26px; height:26px; fill:#fff}
+    .audio-hint{position:fixed; right:18px; bottom:80px; background:var(--glass); border:1px solid rgba(255,255,255,.25); padding:8px 12px; border-radius:10px; font-size:12px}
+
+    /* Intro overlay */
+    .overlay{position:fixed; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.75)); display:grid; place-items:center; z-index:20}
+    .overlay .box{width:min(560px, 92vw); text-align:center}
+
+    /* Fireworks */
+    #fxBack{position:fixed; inset:0; pointer-events:none; z-index:1}
+    #fx{position:fixed; inset:0; pointer-events:none; z-index:3}
+
+    footer{padding:10px 18px; text-align:center; opacity:.8; font-size:12px}
+  </style>
+</head>
+<body>
+  <canvas id="fxBack" aria-hidden="true"></canvas>
+  <canvas id="fx" aria-hidden="true"></canvas>
+  <div class="stars" aria-hidden="true"></div>
+  <div class="moon" aria-hidden="true"></div>
+  
+  <!-- floating colorful lanterns generated by JS -->
+
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Thiệp Trung Thu">
+      <div class="card-header">
+        <img src="data:image/svg+xml;utf8,<?xml version='1.0' encoding='UTF-8'?><svg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 24 24' fill='none' stroke='%23ffd166' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='9'/><path d='M17 12a5 5 0 1 1-10 0 5 5 0 0 0 10 0Z'/></svg>" alt="Trăng rằm" width="34" height="34" />
+        <div>
+          <h1 class="title">Tết Trung Thu – Trăng tròn đoàn viên</h1>
+          <div class="subtitle">Mở thiệp để nghe nhạc và nhận những lời chúc ý nghĩa ✨</div>
+        </div>
+      </div>
+      <div class="content">
+        <section class="paper" aria-live="polite">
+          <p class="greeting" id="greeting"></p>
+          <div id="wish" class="wish" aria-label="Lời chúc"><span id="wishText"></span><span class="cursor" aria-hidden="true"></span></div>
+          <div class="actions">
+            <button class="primary" id="btnRandom">Ngẫu nhiên</button>
+            <button id="btnPrev" title="Lời chúc trước">◀</button>
+            <button id="btnNext" title="Lời chúc tiếp theo">▶</button>
+            <button id="btnCopy">Sao chép</button>
+            <button id="btnSong">Đổi nhạc</button>
+            <a class="ghost" id="btnShare" href="#">Chia sẻ</a>
+          </div>
+          <p class="small">Nhạc: <b id="trackName">trungthu</b></p>
+          <p class="small">Mẹo: thêm <code>?to=TenBan</code> vào cuối đường link để hiện tên người nhận. Ví dụ: <code>?to=Lan</code></p>
+        </section>
+        <section>
+          <div class="paper">
+            <h3 style="margin-top:0">Ý nghĩa đêm rằm</h3>
+            <p>Trung Thu là khoảnh khắc cả nhà quây quần dưới vầng trăng tròn, nhắc nhau gìn giữ yêu thương, sẻ chia và biết ơn. Chúc bạn có một mùa trăng an lành, bánh nướng trà thơm, câu chuyện rộn ràng và nụ cười luôn sáng như trăng rằm.</p>
+            <div class="actions">
+              <button id="btnFire">🎇 Bắn pháo hoa</button>
+              <button id="btnRemote">📡 Pháo tầm xa</button>
+              <button id="btnLantern">🏮 Thả đèn</button>
+            </div>
+          </div>
+        </section>
+      </div>
+      <footer>
+        Made with ♥ | Nhạc sẽ phát khi bạn bấm “Bật nhạc”. Nếu không nghe thấy, hãy kiểm tra file <code>trungthu.mp3</code> đặt cùng thư mục. | Âm thanh pháo: đặt file <code>phao.mp3</code> cùng thư mục.
+      </footer>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="bgm" src="trungthu.mp3" preload="auto" loop playsinline></audio>
+  <audio id="phao" src="phao.mp3" preload="auto"></audio>
+  <audio id="phao1" src="phao1.mp3" preload="auto"></audio>
+  <button class="audio-toggle" id="audioToggle" aria-label="Bật/Tắt nhạc" title="Bật/Tắt nhạc">
+    <svg id="iconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    <svg id="iconPause" viewBox="0 0 24 24" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+  </button>
+  <div class="audio-hint" id="audioHint" hidden>Nhấn để bật nhạc ♫</div>
+
+  <!-- Intro overlay asking for user gesture (autoplay policies) -->
+  <div class="overlay" id="overlay">
+    <div class="box paper">
+      <h2 style="margin:0 0 6px">Chúc Trung Thu vui vẻ! 🌕</h2>
+      <p style="margin:0 0 16px">Nhấn nút dưới đây để bật nhạc và mở thiệp.</p>
+      <div class="actions" style="justify-content:center">
+        <button class="primary" id="startBtn">Bật nhạc & bắt đầu</button>
+        <button class="ghost" id="skipBtn">Vào xem không cần nhạc</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Helpers =====
+    const $ = (s, p=document) => p.querySelector(s);
+    const $$ = (s, p=document) => [...p.querySelectorAll(s)];
+
+    // Personalize via URL
+    const params = new URLSearchParams(location.search);
+    const toNameRaw = params.get('to');
+    const fromNameRaw = params.get('from');
+    const toName = toNameRaw ? decodeURIComponent(toNameRaw.replace(/\+/g,' ')).trim() : '';
+    const fromName = fromNameRaw ? decodeURIComponent(fromNameRaw.replace(/\+/g,' ')).trim() : '';
+    const greetingEl = $('#greeting');
+    if(greetingEl) greetingEl.textContent = toName ? `Gửi ${toName},` : 'Gửi bạn,';
+
+    // ===== Wishes data =====
+    const wishes = [
+      'Chúc bạn một Tết Trung Thu tròn đầy như vầng trăng đêm nay – bình an, đủ đầy và hạnh phúc.',
+      'Mong ánh trăng rằm soi sáng mọi dự định của bạn: việc tốt thành công, lòng tốt đơm hoa, nụ cười rạng rỡ.',
+      'Bánh nướng dẻo thơm, trà xanh ấm nóng – chúc bạn luôn cảm nhận được những điều nhỏ bé nhưng quý giá.',
+      'Trung Thu là mùa đoàn viên: chúc bạn và gia đình luôn bên nhau, hiểu nhau và thương nhau nhiều hơn.',
+      'Chúc cho những điều bạn ước dưới trăng đều thành sự thật – đúng lúc, đúng cách và đủ duyên.',
+      'Dù đi xa đến đâu, mong bạn luôn tìm thấy đường về nhà – nơi có yêu thương chờ đón.',
+      'Chúc tâm an như trăng, lòng sáng như sao, bước chân vững vàng trên con đường bạn chọn.',
+      'Thêm một mùa trăng, thêm một trưởng thành: chúc bạn đủ kiên nhẫn để gieo, đủ bền bỉ để gặt.',
+      'Mong mọi vướng bận khẽ rơi như lá – nhường chỗ cho bình yên lên tiếng.',
+      'Chúc nụ cười bạn tròn như trăng rằm, soi rọi và lan tỏa đến những người xung quanh.',
+      'Trăng tròn nhắc ta trọn vẹn: chúc bạn yêu trọn, sống trọn và biết ơn trọn vẹn.',
+      'Chúc bạn luôn có người để thương, việc để làm, điều để hy vọng – vậy là đủ hạnh phúc.',
+      'Ánh trăng dịu dàng như lời chúc: mong bạn ngủ ngon, mơ đẹp và thức dậy với trái tim vững vàng.',
+      'Chúc những điều lành như đèn lồng đỏ – ấm áp, sáng trong và dẫn lối bạn đi.',
+      'Mong bão tố nào cũng đi qua, để bình yên ở lại bên bạn thật lâu.',
+      'Chúc bạn đủ can đảm buông điều không còn phù hợp, đủ trí tuệ giữ điều đáng trân trọng.',
+      'Trăng tròn – lòng cũng tròn: chúc bạn tha thứ cho mình, yêu thương mình hơn.',
+      'Chúc công việc hanh thông, học hành tiến bộ, sức khỏe dồi dào và trái tim luôn ấm.',
+      'Mong mỗi bước bạn đi đều có nghĩa, mỗi việc bạn làm đều có tình.',
+      'Tết trông trăng – trông thấy bạn mỉm cười: vậy là đẹp nhất đêm nay.',
+      'Chúc bạn gặp gỡ những người tử tế và cũng trở thành điều tử tế cho ai đó.',
+      'Ước mơ của bạn – nếu là điều tốt – mong vũ trụ sẽ thủ thỉ “đồng ý”.',
+      'Chúc chiếc lòng của bạn luôn đủ chỗ cho hi vọng, như bầu trời đủ chỗ cho trăng sao.',
+      'Mong tất cả yêu thương bạn gửi đi đều có ngày quay trở về – đầy hơn, ấm hơn.',
+    ];
+
+    // ===== Typewriter (slow & readable) =====
+    const wishTextEl = $('#wishText');
+    let idx = 0, typingTimer, deleting = false, charIdx = 0, current = wishes[0];
+    function typeLoop(){
+      const speed = deleting ? 26 : 60; // slower typing
+      if(!deleting){
+        wishTextEl.textContent = current.slice(0, ++charIdx);
+        if(charIdx >= current.length){ deleting = true; clearTimeout(typingTimer); typingTimer = setTimeout(typeLoop, 2400); return; }
+      } else {
+        wishTextEl.textContent = current.slice(0, --charIdx);
+        if(charIdx <= 0){ deleting = false; idx = (idx+1) % wishes.length; current = wishes[idx]; }
+      }
+      typingTimer = setTimeout(typeLoop, speed);
+    }
+    function setWish(i){ idx = (i + wishes.length) % wishes.length; current = wishes[idx]; charIdx = 0; deleting = false; clearTimeout(typingTimer); typeLoop(); sparkle(); }
+
+    // Buttons
+    $('#btnPrev').addEventListener('click', ()=> setWish(idx-1));
+    $('#btnNext').addEventListener('click', ()=> setWish(idx+1));
+    $('#btnRandom').addEventListener('click', ()=> setWish(Math.floor(Math.random()*wishes.length)));
+    $('#btnCopy').addEventListener('click', async ()=>{
+      await navigator.clipboard.writeText(`${toName?`Gửi ${toName}, `:''}${wishes[idx]}`);
+      toast('Đã sao chép lời chúc!'); sparkle();
+    });
+
+    // SHARE: include sender/receiver + hard-coded link
+    $('#btnShare').addEventListener('click', async (e)=>{
+      e.preventDefault();
+      const sender = fromName || 'Một người bạn';
+      const receiver = toName || 'bạn';
+      const text = `Lời chúc Trung Thu từ ${sender} gửi ${receiver}:\n“${wishes[idx]}”\nXem thiệp: link`;
+      const shareData = { title: 'Thiệp Trung Thu', text, url: 'link' };
+      try{
+        if(navigator.share){ await navigator.share(shareData); toast('Đã mở chia sẻ'); }
+        else { await navigator.clipboard.writeText(text); toast('Đã sao chép nội dung chia sẻ!'); }
+      }catch{}
+    });
+
+    // ===== FOREGROUND Fireworks (near) & sparkle =====
+    const fx = $('#fx');
+    const ctx = fx.getContext('2d');
+    const fxBack = $('#fxBack');
+    const ctxB = fxBack.getContext('2d');
+
+    function resizeAll(){
+      fx.width = innerWidth * devicePixelRatio; fx.height = innerHeight * devicePixelRatio;
+      fxBack.width = innerWidth * devicePixelRatio; fxBack.height = innerHeight * devicePixelRatio;
+    }
+    resizeAll();
+    addEventListener('resize', resizeAll);
+
+    const particles = []; // foreground
+    function spawn(x,y,color,count=120){
+      for(let i=0;i<count;i++){
+        const a = Math.random()*Math.PI*2; const s = Math.random()*4+1.5;
+        particles.push({x:x*devicePixelRatio, y:y*devicePixelRatio, vx: Math.cos(a)*s, vy: Math.sin(a)*s, life: Math.random()*160+120, color});
+      }
+    }
+    function sparkle(){ spawn(innerWidth*0.5, innerHeight*0.35, `hsl(${Math.random()*360},100%,70%)`, 90); }
+
+    function loop(){
+      // long trails (foreground)
+      ctx.globalCompositeOperation='destination-out';
+      ctx.fillStyle='rgba(0,0,0,0.12)';
+      ctx.fillRect(0,0,fx.width,fx.height);
+      ctx.globalCompositeOperation='lighter';
+      for(let p of particles){
+        p.x+=p.vx; p.y+=p.vy; p.vy+=0.01; p.life-=1;
+        ctx.beginPath(); ctx.arc(p.x,p.y, 2*devicePixelRatio, 0, Math.PI*2);
+        ctx.fillStyle = p.color; ctx.fill();
+      }
+      for(let i=particles.length-1;i>=0;i--){ if(particles[i].life<=0) particles.splice(i,1); }
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    $('#btnFire').addEventListener('click', ()=>{
+      // 3 bursts + sound effect
+      for(let i=0;i<3;i++){
+        setTimeout(()=>{
+          spawn(innerWidth*Math.random(), innerHeight*(.3+.4*Math.random()), `hsl(${Math.random()*360},100%,70%)`, 150);
+          playSfx();
+        }, i*180);
+      }
+    });
+
+    // ===== BACKGROUND Fireworks (remote) with fun shapes =====
+    const farParticles = [];
+    function addFarPoint(cx, cy, px, py, color){
+      const jitter = 0.6; const scale = devicePixelRatio;
+      const vx = px*0.02 + (Math.random()-0.5)*jitter;
+      const vy = py*0.02 + (Math.random()-0.5)*jitter;
+      farParticles.push({ x:(cx+px)*scale, y:(cy+py)*scale, vx, vy, life: 220+Math.random()*120, color});
+    }
+    function spawnShapeBack(shape){
+      const cx = innerWidth*(0.2+0.6*Math.random());
+      const cy = innerHeight*(0.18+0.22*Math.random());
+      const hue = Math.floor(Math.random()*360);
+      const color = `hsl(${hue},100%,70%)`;
+      const r = Math.min(innerWidth, innerHeight)*0.08; // base size
+      const N = 140;
+      if(shape==='ring'){
+        for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy, Math.cos(t)*r, Math.sin(t)*r, color); }
+      } else if(shape==='star'){
+        const spikes=5, r1=r, r2=r*0.45; const pts=spikes*2;
+        for(let i=0;i<pts;i++){ const t=i/pts*2*Math.PI; const rr = (i%2===0)?r1:r2; addFarPoint(cx,cy, Math.cos(t)*rr, Math.sin(t)*rr, color); }
+      } else if(shape==='heart'){
+        for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; const x=16*Math.sin(t)**3; const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); const s=r/18; addFarPoint(cx,cy, x*s, -y*s, color); }
+      } else if(shape==='smiley'){
+        // face ring
+        for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy, Math.cos(t)*r, Math.sin(t)*r, color); }
+        // eyes
+        const er=r*0.12; const ex=r*0.35; const ey=-r*0.2;
+        for(let i=0;i<40;i++){ const t=i/40*2*Math.PI; addFarPoint(cx+ex,cy+ey, Math.cos(t)*er, Math.sin(t)*er, color); addFarPoint(cx-ex,cy+ey, Math.cos(t)*er, Math.sin(t)*er, color); }
+        // smile arc
+        for(let i=0;i<70;i++){ const t=(-Math.PI*0.1)+(i/70)*Math.PI*1.2; const rr=r*0.55; addFarPoint(cx,cy+r*0.15, Math.cos(t)*rr, Math.sin(t)*rr, color); }
+      } else if(shape==='spiral'){
+        const turns = 3.2; const steps=240; const sr=r*0.1; const er=r;
+        for(let i=0;i<steps;i++){ const t=i/steps*turns*2*Math.PI; const rr = sr + (er-sr)*(i/steps); addFarPoint(cx,cy, Math.cos(t)*rr, Math.sin(t)*rr, color); }
+      }
+    }
+    function loopBack(){
+      ctxB.globalCompositeOperation='destination-out';
+      ctxB.fillStyle='rgba(0,0,0,0.10)';
+      ctxB.fillRect(0,0,fxBack.width,fxBack.height);
+      ctxB.globalCompositeOperation='lighter';
+      for(let p of farParticles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.004; p.life-=1; ctxB.beginPath(); ctxB.arc(p.x,p.y, 1.8*devicePixelRatio, 0, Math.PI*2); ctxB.fillStyle=p.color; ctxB.fill(); }
+      for(let i=farParticles.length-1;i>=0;i--){ if(farParticles[i].life<=0) farParticles.splice(i,1); }
+      requestAnimationFrame(loopBack);
+    }
+    loopBack();
+
+    const shapes = ['ring','star','heart','smiley','spiral'];
+    $('#btnRemote').addEventListener('click', ()=>{
+      const bursts = 2 + Math.floor(Math.random()*2); // 2-3 shapes
+      for(let i=0;i<bursts;i++){
+        setTimeout(()=>{ spawnShapeBack(shapes[Math.floor(Math.random()*shapes.length)]); playSfxFar(); }, i*260);
+      }
+    });
+
+    // ===== Stars & Lanterns =====
+    const sky = $('.stars');
+    function makeStar(n=120){ for(let i=0;i<n;i++){ const s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.top=(Math.random()*100)+'%'; const d=Math.random()*3+1; s.style.opacity=0.6+Math.random()*0.4; s.style.animationDuration=(2.5+Math.random()*2)+'s'; s.style.transform=`scale(${d/2})`; sky.appendChild(s); } }
+    function makeLanterns(n=10){ for(let i=0;i<n;i++){ const l=document.createElement('div'); l.className='lantern'; l.style.left=(Math.random()*100)+'%'; l.style.animationDuration=(12+Math.random()*8)+'s'; l.style.opacity=0.7+Math.random()*0.3; l.style.filter=`hue-rotate(${Math.floor(Math.random()*60)-30}deg)`; document.body.appendChild(l); } }
+    makeStar(); makeLanterns(12);
+    $('#btnLantern').addEventListener('click', ()=> makeLanterns(5));
+
+    // ===== Audio control =====
+    const audio = $('#bgm');
+    const toggle = $('#audioToggle');
+    const iconPlay = $('#iconPlay');
+    const iconPause = $('#iconPause');
+    const hint = $('#audioHint');
+    let isPlaying = false;
+    function updateAudioUI(){ iconPlay.style.display = isPlaying? 'none':'block'; iconPause.style.display = isPlaying? 'block':'none'; hint.hidden = isPlaying; }
+    async function playAudio(){ try{ audio.volume = 0.9; await audio.play(); isPlaying = true; updateAudioUI(); } catch { hint.hidden = false; } }
+    function pauseAudio(){ audio.pause(); isPlaying = false; updateAudioUI(); }
+    toggle.addEventListener('click', ()=>{ isPlaying ? pauseAudio() : playAudio(); });
+
+    // SFX (near & far)
+    const sfxEl = $('#phao');
+    const sfxFarEl = $('#phao1');
+    function playSfx(){ try{ const c = sfxEl.cloneNode(); c.volume = 0.7; c.play(); setTimeout(()=>c.remove(), 5000); }catch(e){} }
+    function playSfxFar(){ try{ const c = sfxFarEl.cloneNode(); c.volume = 0.55; c.play(); setTimeout(()=>c.remove(), 6000); }catch(e){} }
+
+    // ===== Playlist (5 tracks) =====
+    const tracks = ['trungthu.mp3','trungthu1.mp3','trungthu2.mp3','trungthu3.mp3','trungthu4.mp3'];
+    let trackIndex = 0;
+    function updateTrackUI(){ const name = tracks[trackIndex].replace('.mp3',''); const el=$('#trackName'); if(el) el.textContent = name; }
+    function setTrack(i){ trackIndex = (i + tracks.length) % tracks.length; audio.src = tracks[trackIndex]; if(isPlaying){ audio.currentTime = 0; audio.play().catch(()=>{}); } updateTrackUI(); }
+    const btnSong = $('#btnSong'); if(btnSong){ btnSong.addEventListener('click', ()=>{ setTrack(trackIndex+1); toast('Đổi nhạc: '+ tracks[trackIndex].replace('.mp3','')); }); }
+
+    // Intro overlay
+    $('#startBtn').addEventListener('click', async ()=>{ await playAudio(); $('#overlay').style.display='none'; sparkle(); });
+    $('#skipBtn').addEventListener('click', ()=>{ $('#overlay').style.display='none'; });
+
+    // Kick off
+    addEventListener('load', ()=>{ typeLoop(); updateTrackUI(); });
+
+    // ===== Toast =====
+    function toast(msg){ const t=document.createElement('div'); t.textContent=msg; Object.assign(t.style,{ position:'fixed', left:'50%', bottom:'30px', transform:'translateX(-50%)', background:'rgba(0,0,0,.7)', color:'#fff', padding:'10px 14px', borderRadius:'999px', zIndex:99, fontWeight:700 }); document.body.appendChild(t); setTimeout(()=>{ t.remove(); }, 1500); }
+  </script>
+</body>
+</html>
