@@ -6,6 +6,9 @@
   <title>Thiệp Trung Thu ✨🌕 – Bản hoàn thiện</title>
   <meta name="description" content="Thiệp Trung Thu co giãn theo nội dung, chia sẻ bằng ảnh trực tiếp, đèn lồng rõ trên điện thoại, có nhạc & pháo hoa." />
   <meta name="theme-color" content="#0b1b3a" />
+  <meta property="og:title" content="Thiệp Trung Thu của bạn" />
+  <meta property="og:description" content="Mở thiệp để nghe nhạc và nhận lời chúc Trung Thu thật ý nghĩa!" />
+  <meta property="og:type" content="website" />
 
   <!-- Preload audio -->
   <link rel="preload" as="audio" href="trungthu.mp3" />
@@ -23,11 +26,15 @@
     body{margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:#f5f7ff;
       background: radial-gradient(1200px 800px at 70% -10%, #254273 0%, transparent 60%), linear-gradient(180deg,var(--bg2),var(--bg1));
       overflow-y:auto}
+
     .stars{position:fixed; inset:0; pointer-events:none}
     .stars i{position:absolute; width:2.5px; height:2.5px; background:#cfe3ff; opacity:.9; border-radius:50%; animation: twinkle 3.8s infinite ease-in-out}
     @keyframes twinkle{50%{transform:scale(1.6); opacity:.45}}
+
     .moon{position:absolute; top:4vh; right:6vw; width:128px; height:128px; background:radial-gradient(circle at 30% 30%, #fff7d1 20%, var(--moon) 60%, #f7d77a 100%);
       border-radius:50%; box-shadow:0 0 30px 10px rgba(255,233,163,.35), 0 0 120px rgba(255,233,163,.25)}
+
+    /* Đèn lồng – rõ trên mobile */
     .lantern{position:absolute; bottom:-160px; width:54px; height:78px; background:linear-gradient(180deg, #ffcf70, var(--lantern)); border-radius:14px;
       box-shadow:0 -10px 20px rgba(255,209,102,.35) inset, 0 10px 20px rgba(0,0,0,.28) inset, 0 0 24px rgba(255,184,77,.7);
       animation: floatUp 16s linear infinite; filter: drop-shadow(0 0 16px rgba(255, 200, 120, .95)); mix-blend-mode: screen}
@@ -36,16 +43,20 @@
     .lantern::after{content:""; position:absolute; left:50%; bottom:-14px; width:24px; height:18px; transform:translateX(-50%);
       background:linear-gradient(180deg, #ffebc6, #ffb84d); border-radius:0 0 8px 8px; box-shadow:0 6px 14px rgba(255,184,77,.9)}
     @keyframes floatUp{0%{transform:translateY(0)}100%{transform:translateY(-120vh)}}
+
     .wrap{position:relative; z-index:2; min-height:100svh; display:grid; place-items:center; padding:16px calc(16px + env(safe-area-inset-right))}
     .card{width:min(960px,94vw); background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06)); border:1px solid rgba(255,255,255,.18);
       border-radius:24px; box-shadow:0 20px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.2); backdrop-filter:blur(10px); overflow:hidden; margin:10px auto}
     .card-header{display:flex; align-items:center; gap:14px; padding:18px 22px; background:linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.03)); border-bottom:1px solid rgba(255,255,255,.15)}
     .title{font-size:clamp(22px,2.6vw,32px); margin:0; font-weight:800}
     .subtitle{opacity:.85; font-size:clamp(13px,1.4vw,15px)}
+
     .content{display:grid; grid-template-columns:1.04fr .96fr; gap:18px; padding:22px}
     @media(max-width:860px){.content{grid-template-columns:1fr; gap:14px; padding:14px}}
-    .paper{background:var(--paper); color:var(--ink); padding:20px; border-radius:16px; box-shadow:inset 0 2px 0 #fff, 0 10px 24px rgba(0,0,0,.15)}
-    .wish{line-height:1.6; font-size:clamp(17px,2vw,20px)}
+
+    .paper{background:var(--paper); color:var(--ink); padding:22px; border-radius:16px; box-shadow:inset 0 2px 0 #fff, 0 10px 24px rgba(0,0,0,.15)}
+    .wish{line-height:1.6; font-size:clamp(17px,2vw,20px); min-height:220px}
+
     .actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px}
     button,.ghost{border:0; padding:10px 14px; border-radius:999px; font-weight:700; cursor:pointer; background:#1e293b; color:#e9f1ff;
       border:1px solid rgba(255,255,255,.25); transition:.2s; min-height:44px; touch-action:manipulation}
@@ -53,21 +64,26 @@
     button.primary{background:linear-gradient(180deg,#ffd166,#ffb84d); color:var(--ink); border-color:#f59f0b}
     .ghost{background:#334155; color:#e9f1ff; border-color:rgba(255,255,255,.55)}
     #btnShare.ghost{background:linear-gradient(180deg,#ffd166,#ffb84d); color:var(--ink); border-color:#f59f0b; box-shadow:0 8px 20px rgba(255,184,77,.4)}
+
     .greeting{font-weight:800; font-size:clamp(18px,2.2vw,22px); margin:0 0 6px}
     .small{font-size:13px; opacity:.8}
+
     .editor{margin-top:12px}
     .editor label{display:block; margin:6px 0; font-weight:700; color:var(--ink)}
     .editor textarea{width:100%; min-height:80px; padding:10px; border-radius:12px; border:1px solid rgba(0,0,0,.1); font-family:inherit; font-size:15px; color:var(--ink); background:#fffdf7}
-    .frombox label{display:block; margin:6px 0 6px; color:var(--ink); font-weight:700}
-    .frombox input{width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.1); font-size:15px; background:#fffdf7; color:var(--ink)}
+
+    /* Audio button */
     .audio-toggle{position:fixed; right:18px; bottom:calc(max(18px, env(safe-area-inset-bottom))); z-index:10; width:54px; height:54px; display:grid; place-items:center;
       border-radius:50%; background:var(--glass); border:1px solid rgba(255,255,255,.3); backdrop-filter:blur(8px); cursor:pointer}
     .audio-toggle svg{width:26px; height:26px; fill:#fff}
     .audio-hint{position:fixed; right:18px; bottom:80px; background:var(--glass); border:1px solid rgba(255,255,255,.25); padding:8px 12px; border-radius:10px; font-size:12px}
+
     .overlay{position:fixed; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.55), rgba(0,0,0,.75)); display:grid; place-items:center; z-index:20}
     .overlay .box{width:min(560px,92vw); text-align:center}
+
     #fxBack{position:fixed; inset:0; pointer-events:none; z-index:1}
     #fx{position:fixed; inset:0; pointer-events:none; z-index:3}
+
     footer{padding:10px 18px; text-align:center; opacity:.8; font-size:12px; padding-bottom: calc(10px + env(safe-area-inset-bottom));}
     @media (max-width: 600px){
       .paper{ padding:16px }
@@ -76,6 +92,10 @@
       .title{ font-size:22px }
       .lantern{ width:70px; height:98px }
     }
+
+    /* Sender box */
+    .frombox label{display:block; margin:6px 0 6px; color:var(--ink); font-weight:700}
+    .frombox input{width:100%; padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.1); font-size:15px; background:#fffdf7; color:var(--ink)}
   </style>
 </head>
 <body>
@@ -101,6 +121,7 @@
             <button class="primary" id="btnRandom">Ngẫu nhiên</button>
             <button id="btnCopy">Sao chép</button>
             <button id="btnSong">Đổi nhạc</button>
+            <button id="btnDL">Tải ảnh</button>
             <a class="ghost" id="btnShare" href="#">Chia sẻ</a>
           </div>
 
@@ -141,9 +162,7 @@
 
   <!-- Audio -->
   <audio id="bgm" src="trungthu.mp3" preload="auto" loop></audio>
-  <!-- phao: pháo bông gần -->
   <audio id="phao" src="phao.mp3" preload="auto"></audio>
-  <!-- phao1: pháo tầm xa -->
   <audio id="phao1" src="phao1.mp3" preload="auto"></audio>
 
   <button class="audio-toggle" id="audioToggle">
@@ -183,7 +202,9 @@
   const defaultWishes = [
     'Đêm rằm Trung Thu không chỉ tròn và sáng, mà còn nhắc ta sống trọn vẹn: trọn với gia đình, trọn với ước mơ, và trọn với chính mình. Chúc bạn một mùa trăng bình an, nơi lòng nhẹ như mây và nụ cười nở như hoa.',
     'Ánh trăng tối nay giống như tấm gương hiền lành soi vào trái tim: điều gì tốt đẹp hãy giữ, điều gì nặng lòng hãy đặt xuống. Chúc bạn đủ tĩnh lặng để lắng nghe mình và đủ can đảm để bước tiếp.',
-    'Chúc bạn và những người thân thương có một đêm rằm ấm áp: có câu chuyện để kể, có tiếng cười để nhớ, có cái nắm tay để yên lòng, và có ước nguyện để cùng nhau đi tới.'
+    'Chúc bạn và những người thân thương có một đêm rằm ấm áp: có câu chuyện để kể, có tiếng cười để nhớ, có cái nắm tay để yên lòng, và có ước nguyện để cùng nhau đi tới.',
+    'Trung Thu là mùa đoàn viên, nhưng nếu bạn ở xa, mong ánh trăng sẽ làm chiếc cầu nối những yêu thương. Chúc khoảng cách chỉ làm nhớ thương thêm ngọt, và ngày gặp lại sẽ thật gần.',
+    'Mỗi chiếc bánh nướng dẻo thơm là lời nhắc về sự đủ đầy. Chúc bạn đủ sức khỏe để gieo, đủ kiên nhẫn để chờ, đủ niềm vui để gặt, và đủ biết ơn để giữ những gì quý giá.'
   ];
   let wishes; try{ const saved = JSON.parse(localStorage.getItem('wishesUser')||'null'); wishes = Array.isArray(saved) && saved.length ? saved : [...defaultWishes]; }catch{ wishes=[...defaultWishes]; }
   let idx = 0; function render(){ $('#wishText').textContent = wishes[idx]; }
@@ -198,50 +219,43 @@
   // ========= Copy =========
   $('#btnCopy').onclick = async ()=>{ const head = toName?`Gửi ${toName}, `:''; const text = `${head}${decorate(wishes[idx])}\nTạo lời chúc tại đây: ${BASE}`; await navigator.clipboard.writeText(text); toast('Đã sao chép lời chúc!'); sparkle(); };
 
-  // ========= Share as IMAGE (đa dự phòng) =========
+  // ========= Download image (nút riêng như bản bạn demo) =========
+  $('#btnDL').onclick = async ()=>{
+    const {blob} = await createCardImage({ to: toName||'bạn', from: fromName||'Một người bạn', text: decorate(wishes[idx]) });
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove();
+    toast('Đã tạo & tải ảnh thiệp');
+  };
+
+  // ========= Share as IMAGE (dùng đúng đoạn bạn đã test OK) =========
   $('#btnShare').onclick = async (e)=>{
     e.preventDefault();
     const {blob} = await createCardImage({ to: toName||'bạn', from: fromName||'Một người bạn', text: decorate(wishes[idx]) });
     const file = new File([blob], 'thiep-trung-thu.png', {type:'image/png'});
     const caption = `Tạo lời chúc tại đây: ${BASE}`;
-
-    // 1) Web Share Level 2 (chia sẻ file)
     try{
       if(navigator.canShare && navigator.canShare({ files:[file] })){
         await navigator.share({ files:[file], title:'Thiệp Trung Thu', text: caption });
         toast('Đã mở chia sẻ bằng ảnh');
-        return;
+      } else {
+        const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove();
+        toast('Thiết bị không hỗ trợ chia sẻ ảnh trực tiếp — đã tải ảnh để bạn gửi qua Zalo/FB.');
       }
-    }catch{}
-
-    // 2) Web Share thường với data URL (nhiều trình duyệt di động hỗ trợ)
-    try{
-      const dataUrl = await new Promise(res=>{
-        const r = new FileReader(); r.onload = ()=>res(r.result); r.readAsDataURL(blob);
-      });
-      if(navigator.share){
-        await navigator.share({ title:'Thiệp Trung Thu', text: caption, url: dataUrl });
-        toast('Đã mở chia sẻ đường dẫn ảnh');
-        return;
-      }
-    }catch{}
-
-    // 3) Chép ảnh vào clipboard
-    try{
-      if(navigator.clipboard && window.ClipboardItem){
-        await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-        toast('Đã chép ảnh vào clipboard — hãy dán vào Zalo/FB');
-        return;
-      }
-    }catch{}
-
-    // 4) Tải ảnh về máy (chắc chắn chạy)
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);
-    a.download='thiep-trung-thu.png';
-    document.body.appendChild(a); a.click(); a.remove();
-    toast('Thiết bị không hỗ trợ chia sẻ trực tiếp — đã tải ảnh để bạn gửi.');
+    }catch(err){
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='thiep-trung-thu.png'; document.body.appendChild(a); a.click(); a.remove();
+    }
   };
+
+  // ========= Save sender name =========
+  const fromInput = $('#fromInput'); if(fromInput){ fromInput.value = fromName || ''; }
+  $('#btnSaveFrom').onclick = ()=>{ fromName = (fromInput.value||'').trim() || fromName; try{ localStorage.setItem('fromNameUser', fromName); }catch{} $('#fromLine').textContent = fromName?`Từ: ${fromName}`:''; toast('Đã lưu tên người gửi'); };
+  fromInput?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); $('#btnSaveFrom').click(); } });
+
+  // ========= Custom wish editor =========
+  const customInput = $('#customInput'); customInput.value = wishes[idx] || '';
+  function saveWishes(clear=false){ try{ clear ? localStorage.removeItem('wishesUser') : localStorage.setItem('wishesUser', JSON.stringify(wishes)); }catch{} }
+  $('#btnUse').onclick = ()=>{ const t = (customInput.value||'').trim(); if(!t){ toast('Nhập lời chúc trước nhé'); return; } wishes[idx] = t; saveWishes(); render(); sparkle(); toast('Đã cập nhật lời chúc'); };
+  $('#btnAddWish').onclick = ()=>{ const t = (customInput.value||'').trim(); if(!t){ toast('Nhập lời chúc trước nhé'); return; } wishes.push(t); idx = wishes.length - 1; saveWishes(); render(); sparkle(); toast('Đã thêm vào danh sách'); };
+  $('#btnReset').onclick = ()=>{ if(confirm('Khôi phục danh sách lời chúc gốc?')){ wishes=[...defaultWishes]; idx=0; saveWishes(true); render(); toast('Đã khôi phục danh sách gốc'); } };
 
   // ========= Audio =========
   const audio = $('#bgm');
@@ -252,7 +266,7 @@
   const iconPlay=$('#iconPlay'); const iconPause=$('#iconPause');
   let isPlaying=false;
 
-  // Danh sách bài nhạc (đã thêm trungthu4)
+  // Playlist có trungthu4
   const tracks = ['trungthu.mp3','trungthu1.mp3','trungthu2.mp3','trungthu3.mp3','trungthu4.mp3'];
   let trackIndex = 0;
 
@@ -269,33 +283,18 @@
   }
   function pauseAudio(){ audio.pause(); isPlaying=false; updateAudioUI(); }
 
-  // Đổi bài an toàn: tự bỏ qua bài lỗi (nếu không tồn tại)
-  async function setTrack(i, {autoplayIfPlaying=true} = {}){
-    trackIndex = ((i % tracks.length) + tracks.length) % tracks.length;
-    const wasPlaying = isPlaying;
+  // Đổi bài gọn giống bản bạn đưa
+  function setTrack(i){
+    trackIndex = (i + tracks.length) % tracks.length;
     audio.src = tracks[trackIndex];
+    if(isPlaying){
+      audio.currentTime = 0;
+      audio.play().catch(()=>{});
+    }
     updateTrackName();
-
-    // chờ canplay cho chắc
-    const waitReady = new Promise(resolve=>{
-      const on = ()=>{ audio.removeEventListener('canplay', on); resolve(); };
-      audio.addEventListener('canplay', on, {once:true});
-      setTimeout(resolve, 1500);
-    });
-    audio.load();
-    await waitReady;
-
-    if(wasPlaying && autoplayIfPlaying){ await playAudio(); }
   }
-
-  // Gắn nút đổi nhạc
-  $('#btnSong').onclick = async ()=>{
-    await setTrack(trackIndex + 1);
-    toast('Đã đổi nhạc: ' + tracks[trackIndex].replace('.mp3',''));
-    sparkle();
-  };
-
-  // Nút play/pause tổng
+  $('#btnSong').onclick = ()=>{ setTrack(trackIndex + 1); toast('Đổi nhạc: '+tracks[trackIndex].replace('.mp3','')); sparkle(); };
+  audio.addEventListener('ended', ()=> setTrack(trackIndex+1));
   toggleBtn.onclick = ()=>{ isPlaying ? pauseAudio() : playAudio(); };
   updateTrackName();
 
@@ -303,56 +302,104 @@
   $('#startBtn').onclick = async ()=>{ await playAudio(); $('#overlay').style.display='none'; sparkle(); };
   $('#skipBtn').onclick = ()=>{ $('#overlay').style.display='none'; };
 
-  // ========= Lưu tên người gửi & Editor =========
-  const fromInput = $('#fromInput'); if(fromInput){ fromInput.value = fromName || ''; }
-  $('#btnSaveFrom').onclick = ()=>{ fromName = (fromInput.value||'').trim() || fromName; try{ localStorage.setItem('fromNameUser', fromName); }catch{} $('#fromLine').textContent = fromName?`Từ: ${fromName}`:''; toast('Đã lưu tên người gửi'); };
-  fromInput?.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); $('#btnSaveFrom').click(); } });
-
-  const customInput = $('#customInput'); customInput.value = wishes[idx] || '';
-  function saveWishes(clear=false){ try{ clear ? localStorage.removeItem('wishesUser') : localStorage.setItem('wishesUser', JSON.stringify(wishes)); }catch{} }
-  $('#btnUse').onclick = ()=>{ const t = (customInput.value||'').trim(); if(!t){ toast('Nhập lời chúc trước nhé'); return; } wishes[idx] = t; saveWishes(); render(); sparkle(); toast('Đã cập nhật lời chúc'); };
-  $('#btnAddWish').onclick = ()=>{ const t = (customInput.value||'').trim(); if(!t){ toast('Nhập lời chúc trước nhé'); return; } wishes.push(t); idx = wishes.length - 1; saveWishes(); render(); sparkle(); toast('Đã thêm vào danh sách'); };
-  $('#btnReset').onclick = ()=>{ if(confirm('Khôi phục danh sách lời chúc gốc?')){ wishes=[...defaultWishes]; idx=0; saveWishes(true); render(); toast('Đã khôi phục danh sách gốc'); } };
-
   // ========= Hiệu ứng pháo sáng =========
   const fx = $('#fx'); const ctx = fx.getContext('2d'); const fxBack = $('#fxBack'); const ctxB = fxBack.getContext('2d');
   function resize(){ fx.width = innerWidth*devicePixelRatio; fx.height = innerHeight*devicePixelRatio; fxBack.width = innerWidth*devicePixelRatio; fxBack.height = innerHeight*devicePixelRatio; }
   addEventListener('resize', resize); resize();
 
-  const MOBILE_BOOST = isMobile ? 1.15 : 1;
+  const MOBILE_BOOST = isMobile ? 0.8 : 1;
   const particles=[];
-  function spawn(x,y,color,count=140){ count=Math.floor(count*(MOBILE_BOOST)); for(let i=0;i<count;i++){ const a=Math.random()*Math.PI*2; const s=Math.random()*4+1.8; particles.push({x:x*devicePixelRatio,y:y*devicePixelRatio,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:130+Math.random()*170,color}); } }
-  function sparkle(){ const col='hsl('+ (Math.random()*360) +',100%,70%)'; spawn(innerWidth*0.5, innerHeight*0.35, col, isMobile?90:80); }
-  function loop(){ ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='rgba(0,0,0,0.10)'; ctx.fillRect(0,0,fx.width,fx.height); ctx.globalCompositeOperation='lighter'; for(const p of particles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.011; p.life-=1; ctx.beginPath(); const r = (isMobile?3.0:2.2)*devicePixelRatio; ctx.arc(p.x,p.y, r, 0, Math.PI*2); ctx.fillStyle=p.color; ctx.fill(); ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.lineWidth=devicePixelRatio*0.6; ctx.stroke(); } for(let i=particles.length-1;i>=0;i--){ if(particles[i].life<=0) particles.splice(i,1); } requestAnimationFrame(loop); } loop();
+  function spawn(x,y,color,count=140){ count=Math.floor(count*(MOBILE_BOOST)); for(let i=0;i<count;i++){ const a=Math.random()*Math.PI*2; const s=Math.random()*4+1.6; particles.push({x:x*devicePixelRatio,y:y*devicePixelRatio,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:120+Math.random()*160,color}); } }
+  function sparkle(){ const col='hsl('+ (Math.random()*360) +',100%,70%)'; spawn(innerWidth*0.5, innerHeight*0.35, col, isMobile?60:90); }
+  function loop(){ ctx.globalCompositeOperation='destination-out'; ctx.fillStyle='rgba(0,0,0,0.12)'; ctx.fillRect(0,0,fx.width,fx.height); ctx.globalCompositeOperation='lighter'; for(const p of particles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.01; p.life-=1; ctx.beginPath(); ctx.arc(p.x,p.y, 2*devicePixelRatio, 0, Math.PI*2); ctx.fillStyle=p.color; ctx.fill(); } for(let i=particles.length-1;i>=0;i--){ if(particles[i].life<=0) particles.splice(i,1); } requestAnimationFrame(loop); } loop();
 
-  const sky = $('.stars');
-  function makeStar(n=120){ for(let i=0;i<n;i++){ const s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.top=(Math.random()*100)+'%'; const d=1+Math.random()*3; s.style.opacity=0.6+Math.random()*0.4; s.style.animationDuration=(2.5+Math.random()*2)+'s'; s.style.transform='scale('+(d/1.6)+')'; sky.appendChild(s); } }
-  function makeLanterns(n=10){ for(let i=0;i<n;i++){ const l=document.createElement('div'); l.className='lantern'; l.style.left=(Math.random()*100)+'%'; l.style.animationDuration=(12+Math.random()*8)+'s'; l.style.opacity=0.85; document.body.appendChild(l); } }
-  makeStar(isMobile?110:120); makeLanterns(isMobile?10:12);
-
-  // ====== Nút hiệu ứng + âm thanh pháo ======
-  function playSfx(el, vol=1){
-    try{
-      el.volume = vol;
-      el.currentTime = 0; // để bấm liên tục vẫn nghe
-      el.play();
-    }catch{}
-  }
-
-  $('#btnFire').onclick = ()=>{ sparkle(); playSfx(sfxFire, 0.9); };
-  $('#btnRemote').onclick = ()=>{ spawnShapeBack(); playSfx(sfxRemote, 1); };
-  $('#btnLantern').onclick = ()=> makeLanterns(6);
+  // Nút pháo + âm thanh (clone để bấm liên tục)
+  function clonePlay(el, vol=0.8, ttl=6000){ try{ const c=el.cloneNode(); c.volume=vol; c.play(); setTimeout(()=>c.remove(), ttl); }catch{} }
+  $('#btnFire').onclick = ()=>{ for(let i=0;i<3;i++) setTimeout(()=>{ const col='hsl('+ (Math.random()*360) +',100%,70%)'; spawn(innerWidth*Math.random(), innerHeight*(.3+.4*Math.random()), col, 150); clonePlay(sfxFire,0.75,4500); }, i*180); };
 
   // ===== Background soft effects (cho "pháo tầm xa") =====
   const farParticles=[];
-  function addFarPoint(cx,cy,px,py,color){ const j=0.6,s=devicePixelRatio; const vx=px*0.02+(Math.random()-0.5)*j; const vy=py*0.02+(Math.random()-0.5)*j; farParticles.push({x:(cx+px)*s,y:(cy+py)*s,vx,vy,life:260+Math.random()*160,color}); }
-  function spawnShapeBack(){ const cx=innerWidth*0.55; const cy=innerHeight*0.32; const hue=Math.floor(Math.random()*360); const color='hsla('+hue+',100%,70%,0.9)'; const r=Math.min(innerWidth,innerHeight)*0.09; const N=120; for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy,Math.cos(t)*r,Math.sin(t)*r,color); } }
-  function loopBack(){ ctxB.globalCompositeOperation='destination-out'; ctxB.fillStyle='rgba(0,0,0,0.09)'; ctxB.fillRect(0,0,fxBack.width,fxBack.height); ctxB.globalCompositeOperation='lighter'; for(const p of farParticles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.0045; p.life-=1; ctxB.beginPath(); ctxB.arc(p.x,p.y, (isMobile?2.2:1.8)*devicePixelRatio, 0, Math.PI*2); ctxB.fillStyle=p.color; ctxB.fill(); } for(let i=farParticles.length-1;i>=0;i--){ if(farParticles[i].life<=0) farParticles.splice(i,1); } requestAnimationFrame(loopBack); }
-  loopBack(); spawnShapeBack();
+  function addFarPoint(cx,cy,px,py,color){ const j=0.6,s=devicePixelRatio; const vx=px*0.02+(Math.random()-0.5)*j; const vy=py*0.02+(Math.random()-0.5)*j; farParticles.push({x:(cx+px)*s,y:(cy+py)*s,vx,vy,life:240+Math.random()*140,color}); }
+  function spawnShapeBack(shape){
+    const cx=innerWidth*(0.2+0.6*Math.random());
+    const cy=innerHeight*(0.18+0.22*Math.random());
+    const hue=Math.floor(Math.random()*360); const color='hsl('+hue+',100%,70%)';
+    const r=Math.min(innerWidth,innerHeight)*0.08; const N=140;
+    if(shape==='ring'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; addFarPoint(cx,cy,Math.cos(t)*r,Math.sin(t)*r,color); } }
+    else if(shape==='star'){ const spikes=5,r1=r,r2=r*0.45,pts=spikes*2; for(let i=0;i<pts;i++){ const t=i/pts*2*Math.PI; const rr=(i%2===0)?r1:r2; addFarPoint(cx,cy,Math.cos(t)*rr,Math.sin(t)*rr,color); } }
+    else if(shape==='heart'){ for(let i=0;i<N;i++){ const t=i/N*2*Math.PI; const x=16*Math.sin(t)**3; const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t); const s=r/18; addFarPoint(cx,cy,x*s,-y*s,color); } }
+    else if(shape==='spiral'){ const turns=3.2,steps=240,sr=r*0.1,er=r; for(let i=0;i<steps;i++){ const t=i/steps*turns*2*Math.PI; const rr=sr+(er-sr)*(i/steps); addFarPoint(cx,cy,Math.cos(t)*rr,Math.sin(t)*rr,color); } }
+  }
+  function loopBack(){
+    ctxB.globalCompositeOperation='destination-out'; ctxB.fillStyle='rgba(0,0,0,0.10)'; ctxB.fillRect(0,0,fxBack.width,fxBack.height);
+    ctxB.globalCompositeOperation='lighter';
+    for(const p of farParticles){ p.x+=p.vx; p.y+=p.vy; p.vy+=0.004; p.life-=1; ctxB.beginPath(); ctxB.arc(p.x,p.y, 1.8*devicePixelRatio, 0, Math.PI*2); ctxB.fillStyle=p.color; ctxB.fill(); }
+    for(let i=farParticles.length-1;i>=0;i--){ if(farParticles[i].life<=0) farParticles.splice(i,1); }
+    requestAnimationFrame(loopBack);
+  } loopBack();
+
+  const shapes=['ring','star','heart','spiral'];
+  $('#btnRemote').onclick = ()=>{ const bursts=2+Math.floor(Math.random()*2); for(let i=0;i<bursts;i++) setTimeout(()=>{ spawnShapeBack(shapes[Math.floor(Math.random()*shapes.length)]); clonePlay(sfxRemote,0.6,6000); }, i*260); };
+
+  // Stars & lanterns
+  const sky = $('.stars');
+  function makeStar(n=120){ for(let i=0;i<n;i++){ const s=document.createElement('i'); s.style.left=(Math.random()*100)+'%'; s.style.top=(Math.random()*100)+'%'; const d=1+Math.random()*3; s.style.opacity=0.6+Math.random()*0.4; s.style.animationDuration=(2.5+Math.random()*2)+'s'; s.style.transform='scale('+(d/1.6)+')'; sky.appendChild(s); } }
+  function makeLanterns(n=10){ for(let i=0;i<n;i++){ const l=document.createElement('div'); l.className='lantern'; l.style.left=(Math.random()*100)+'%'; l.style.animationDuration=(12+Math.random()*8)+'s'; l.style.opacity=0.85; document.body.appendChild(l); } }
+  makeStar(isMobile?90:120); makeLanterns(isMobile?10:12);
+  $('#btnLantern').onclick = ()=> makeLanterns(6);
+
+  // ========= Card image generator (co giãn theo nội dung) =========
+  function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+  function wrapLines(ctx, text, maxWidth){
+    const words = text.split(' '); const lines = []; let line = '';
+    for(let n=0;n<words.length;n++){
+      const test = line + words[n] + ' ';
+      if(ctx.measureText(test).width > maxWidth && line){ lines.push(line.trim()); line = words[n] + ' '; }
+      else line = test;
+    }
+    lines.push(line.trim()); return lines;
+  }
+
+  async function createCardImage({to, from, text}){
+    const W = 1080, P = 80;
+    const ctmp = document.createElement('canvas').getContext('2d');
+    ctmp.font = '400 34px sans-serif';
+    const cardW = W - P*2;
+    const contentLines = wrapLines(ctmp, text, cardW-56);
+    const lineHeight = 50;
+    const fixedTop = 210, fixedBottom = 120;
+    const MIN_CARD_H = 380;
+    let cardH = Math.max(MIN_CARD_H, fixedTop + contentLines.length*lineHeight + fixedBottom);
+    const H = cardH + 260 + 120;
+
+    const canvas = document.createElement('canvas'); canvas.width=W; canvas.height=H; const c=canvas.getContext('2d');
+
+    const g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#0b1b3a'); g.addColorStop(1,'#1b335f'); c.fillStyle=g; c.fillRect(0,0,W,H);
+    c.save(); c.shadowColor='rgba(255,233,163,.5)'; c.shadowBlur=70; c.fillStyle='#ffe9a3'; c.beginPath(); c.arc(W*0.82,180,88,0,Math.PI*2); c.fill(); c.restore();
+
+    function lantern(x,y,s,color){ c.save(); c.translate(x,y); c.scale(s,s); c.fillStyle=color; c.shadowColor=color; c.shadowBlur=40; roundRect(c,-30,-45,60,90,16); c.fill(); c.restore(); }
+    lantern(160,160,1.0,'#ffcf70'); lantern(260,280,0.85,'#ffd166'); lantern(W-220,240,0.9,'#ffc35a');
+
+    const cardX=P, cardY=260;
+    c.save(); c.shadowColor='rgba(0,0,0,.25)'; c.shadowBlur=28; c.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--paper') || '#fff7e6';
+    roundRect(c, cardX, cardY, cardW, cardH, 28); c.fill(); c.restore();
+    c.lineWidth=2; c.strokeStyle='#ffd166'; roundRect(c, cardX, cardY, cardW, cardH, 28); c.stroke();
+
+    c.fillStyle='#3b2f1a'; c.font='700 42px sans-serif'; c.fillText('Thiệp Trung Thu', cardX+28, cardY+90);
+    c.font='700 36px sans-serif'; c.fillText('Gửi ' + (to||'bạn') + ',', cardX+28, cardY+150);
+
+    c.font='400 34px sans-serif';
+    let y = cardY + fixedTop;
+    for(const ln of contentLines){ c.fillText(ln, cardX+28, y); y += lineHeight; }
+
+    c.font='500 30px sans-serif'; c.fillText('Từ: ' + (from||'Một người bạn'), cardX+28, y+30);
+    c.globalAlpha=0.9; c.font='400 26px sans-serif'; c.fillText('Tạo lời chúc tại đây: ' + BASE, cardX+28, cardY+cardH-32); c.globalAlpha=1;
+
+    return new Promise((resolve)=> canvas.toBlob((blob)=> resolve({blob}), 'image/png'));
+  }
 
   // ===== Toast =====
   function toast(msg){ const t=document.createElement('div'); t.textContent=msg; Object.assign(t.style,{ position:'fixed', left:'50%', bottom:'30px', transform:'translateX(-50%)', background:'rgba(0,0,0,.7)', color:'#fff', padding:'10px 14px', borderRadius:'999px', zIndex:99, fontWeight:700 }); document.body.appendChild(t); setTimeout(()=>{ t.remove(); }, 1500); }
-
   </script>
 </body>
 </html>
